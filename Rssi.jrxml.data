@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 8.0.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rssi" pageWidth="905" pageHeight="1005" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="905" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryNewPage="true" uuid="3ab19c89-82ee-4e44-873e-5f12c7fbd57b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="auxdb_135.250.195.23"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="ireport.jasperserver.url" value="https://135.249.213.25/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="superuser"/>
+	<property name="ireport.jasperserver.report.resource" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report_files/Rssi.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report"/>
+	<property name="com.jaspersoft.studio.report.unit.description" value="SAR-Hm LTE signal trend analysis"/>
+	<scriptlet name="AnalyticsUDFs" class="com.nokia.nsp.analytics.report.AnalyticsUDFs">
+		<scriptletDescription><![CDATA[]]></scriptletDescription>
+	</scriptlet>
+	<parameter name="endTime" class="net.sf.jasperreports.types.date.TimestampRange">
+		<defaultValueExpression><![CDATA[new net.sf.jasperreports.types.date.DateRangeBuilder("DAY").set(java.sql.Timestamp.class).toDateRange()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="granularity" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="timePeriod" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["8 hours"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Node_Name_Pattern" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Node" class="java.lang.String"/>
+	<parameter name="portStatus" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="portNamePattern" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Port" class="java.lang.String"/>
+	<parameter name="nodeType" class="java.lang.String"/>
+	<parameter name="srcTable" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="statsQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1 ?
+
+"with rssi as ( "+
+"select  (timeCaptured-(timeCaptured%60000)) as timeCapturedNew, cast(AVG(periodicTime/60000) as int)   as collectionInterval, "+
+"avg(cellPortRssi) as cellPortRssi , avg(cellPortRsrp) as cellPortRsrp , avg(cellPortRscp) as cellPortRscp, "+
+"avg(cellPortRsrq) as cellPortRsrq , avg(cellPortSinr) as cellPortSinr "+
+"from samdb.cellularequipment_CellularPortStatsLogRecord  where createdOnPollType>=1 and periodicTime>0 "+
+" and timeCaptured>= "+ $P{StartDateQuery} +" and timeCaptured <="+  $P{EndDateQuery} +" and   "+
+" monitoredObjectPointer = '" +$P{Port} + "' "+
+" group by  timeCapturedNew) "+
+
+" select timeCapturedNew as timerecorded, collectionInterval, cellPortRssi, cellPortRsrp ,cellPortRscp ,cellPortRsrq ,cellPortSinr from rssi "
+
+:
+
+"with rssi as ( "+
+"select timerecorded as timeCapturedNew,cellportrssi_AbsAvg as cellPortRssi "+
+", cellportrsrp_AbsAvg as cellPortRsrp,cellportrscp_AbsAvg as cellPortRscp "+
+", cellportrsrq_AbsAvg as cellPortRsrq,cellportsinr_AbsAvg as cellPortSinr "+
+" from " +$P{srcTable} + 
+" where createdOnPollType>=1  "+
+"  and timeRecorded>="+ $P{StartDateQuery} +" and timeRecorded <="+ $P{EndDateQuery} +" and  "+
+"  monitoredObjectPointer = '" +$P{Port} + "' "+
+" ) "+
+
+" select timeCapturedNew as timerecorded, cellPortRssi, cellPortRsrp ,cellPortRscp ,cellPortRsrq ,cellPortSinr from rssi "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="granularityString" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"Monthly":
+($P{granularity}==3) ?
+"Daily":
+($P{granularity}==2) ?
+"Hourly":
+"Raw Collection Interval"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDateFomat" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="endDateFormat" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.adjustEndTime($P{endTime}.getEnd().getTime(), System.currentTimeMillis(), $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
+	</parameter>
+	<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.calTs($P{EndDateQuery}, $P{timePeriod}, $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
+	</parameter>
+	<parameter name="gapFillingStr" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?
+",X as (  "+
+"            with Y as (  "+
+"                 select samdb.gapFillingEmptySeries(timeRecorded, collectionInterval using  parameters startTime="+ $P{StartDateQuery}+" , endTime=" + $P{EndDateQuery}+" , collectionInterval='Raw')  "+
+"                  OVER (ORDER BY timeRecorded)  from    A  "+
+"            )    "+
+"            select timeRecorded,  0 as nullCounter from Y)     "+
+" select x.timeRecorded, a.cellPortRssi,a.cellPortRsrp,a.cellPortRscp,a.cellPortRsrq,a.cellPortSinr from X x  LEFT  JOIN A a on x.timeRecorded=a.timeRecorded order by timeRecorded  "
+:
+"  ,X as (    "+
+"           with Y as (   "+
+"               select samdb.gapFillingEmptySeries(timeRecorded using  parameters startTime="+$P{StartDateQuery} +" , endTime="+ $P{EndDateQuery}+", collectionInterval='"+$P{granularityString}+"')    "+
+"               OVER (ORDER BY timeRecorded)  from    A   "+
+"           )     "+
+"           select timeRecorded  from Y   "+
+"  )     "+
+"   select x.timeRecorded, a.cellPortRssi,a.cellPortRsrp,a.cellPortRscp,a.cellPortRsrq,a.cellPortSinr   from X x  LEFT  JOIN A a on x.timeRecorded=a.timeRecorded order by timeRecorded   "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mainCollectionInterval" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?"(case when collectionInterval<1 then 1 else collectionInterval end) as collectionInterval ,":""]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[with A as (
+				with B as (
+ 
+ $P!{statsQuery}
+
+ )
+ 
+                select  timeRecorded,  $P!{mainCollectionInterval}
+                 cellPortRssi,cellPortRsrp,cellPortRscp,cellPortRsrq,cellPortSinr from B  order by timeRecorded ASC
+) 
+
+
+select a.timeRecorded, a.cellPortRssi,a.cellPortRsrp,a.cellPortRscp,a.cellPortRsrq,a.cellPortSinr from  A a 
+        order by timeRecorded]]>
+	</queryString>
+	<field name="timeRecorded" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="timeRecorded"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Cellularequipment_CellularPortStatsLogRecord_hour"/>
+	</field>
+	<field name="cellPortRssi" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cellPortRssi"/>
+	</field>
+	<field name="cellPortRsrp" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cellPortRsrp"/>
+	</field>
+	<field name="cellPortRscp" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cellPortRscp"/>
+	</field>
+	<field name="cellPortRsrq" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cellPortRsrp"/>
+	</field>
+	<field name="cellPortSinr" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="cellPortRsrp"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="407" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<componentElement>
+				<reportElement positionType="Float" x="10" y="50" width="880" height="300" uuid="68e12ed0-0a37-41f0-b73f-29dc21cdac3e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<hc:chart xmlns:hc="http://jaspersoft.com/highcharts" xsi:schemaLocation="http://jaspersoft.com/highcharts http://jaspersoft.com/schema/highcharts.xsd" type="TimeSeriesLine">
+					<hc:chartSetting name="default">
+						<hc:chartProperty name="credits.enabled" value="false"/>
+						<hc:chartProperty name="credits.text" value=""/>
+						<hc:chartProperty name="yAxis.title.text" value=""/>
+						<hc:chartProperty name="tooltip.shared_customSimpleMode" value="true"/>
+						<hc:chartProperty name="tooltip.shared">
+							<hc:propertyExpression><![CDATA[true]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.floating_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.floating">
+							<hc:propertyExpression><![CDATA[false]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="_showDataPoints">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="chart.showAxes_customSimpleMode" value="true"/>
+						<hc:chartProperty name="chart.showAxes">
+							<hc:propertyExpression><![CDATA[true]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="chart.zoomType" value="xy"/>
+						<hc:chartProperty name="credits.href" value=""/>
+						<hc:chartProperty name="legend.maxHeight_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.maxHeight">
+							<hc:propertyExpression><![CDATA[330]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.symbolRadius_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.symbolRadius">
+							<hc:propertyExpression><![CDATA[10]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="plotOptions.line.marker.radius_customSimpleMode" value="true"/>
+						<hc:chartProperty name="plotOptions.line.marker.radius">
+							<hc:propertyExpression><![CDATA[1]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="xAxis.labels.autoRotation">
+							<hc:propertyExpression><![CDATA[Boolean.FALSE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA[""]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.itemMarginBottom"/>
+						<hc:chartProperty name="title.verticalAlign" value="top"/>
+						<hc:chartProperty name="title.style.fontSize_measureUnit" value="{&quot;key&quot;:&quot;px&quot;,&quot;name&quot;:&quot;px&quot;}"/>
+						<hc:chartProperty name="title.style.fontSize" value="18px"/>
+						<hc:chartProperty name="title.y_measureUnit" value="{&quot;key&quot;:&quot;px&quot;,&quot;name&quot;:&quot;px&quot;}"/>
+						<hc:chartProperty name="title.y_customSimpleMode" value="true"/>
+						<hc:chartProperty name="title.y">
+							<hc:propertyExpression><![CDATA[15]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.x"/>
+						<hc:chartProperty name="chart.alignTicks">
+							<hc:propertyExpression><![CDATA[true]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.layout" value="horizontal"/>
+						<hc:chartProperty name="yAxis.opposite">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="plotOptions.line.marker.enabled">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<hc:chartSetting name="yAxis">
+						<hc:chartProperty name="_jrAxisIndex">
+							<hc:propertyExpression><![CDATA[1]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="id">
+							<hc:propertyExpression><![CDATA["id1"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA["dBm (RSSI, RSRP, RSCP)"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="tooltip.valueSuffix">
+							<hc:propertyExpression><![CDATA[" "]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="yAxis.opposite">
+							<hc:propertyExpression><![CDATA["false"]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<hc:chartSetting name="yAxis">
+						<hc:chartProperty name="_jrAxisIndex">
+							<hc:propertyExpression><![CDATA[0]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="id">
+							<hc:propertyExpression><![CDATA["id0"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA["dB (RSRQ, SINR)"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="tooltip.valueSuffix">
+							<hc:propertyExpression><![CDATA[" "]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="yAxis.Opposite">
+							<hc:propertyExpression><![CDATA["true"]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<multiAxisData>
+						<multiAxisDataset>
+							<dataset resetType="Report"/>
+						</multiAxisDataset>
+						<dataAxis axis="Rows">
+							<axisLevel name="Time">
+								<labelExpression><![CDATA[]]></labelExpression>
+								<axisLevelBucket class="java.util.Date">
+									<bucketExpression><![CDATA[new Date($F{timeRecorded})]]></bucketExpression>
+								</axisLevelBucket>
+							</axisLevel>
+						</dataAxis>
+						<dataAxis axis="Columns"/>
+						<multiAxisMeasure name="RSSI " class="java.lang.Long" calculation="Nothing">
+							<labelExpression><![CDATA["RSSI"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cellPortRssi}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="RSRP" class="java.lang.Long" calculation="Nothing">
+							<labelExpression><![CDATA["RSRP"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cellPortRsrp}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="RSCP" class="java.lang.Long" calculation="Nothing">
+							<labelExpression><![CDATA["RSCP"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cellPortRscp}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="RSRQ" class="java.lang.Long" calculation="Nothing">
+							<labelExpression><![CDATA["RSRQ"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cellPortRsrq}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="SINR" class="java.lang.Long" calculation="Nothing">
+							<labelExpression><![CDATA["SINR"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cellPortSinr}]]></valueExpression>
+						</multiAxisMeasure>
+					</multiAxisData>
+					<hc:series name="RSSI ">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[1]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="RSRP">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[1]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="RSCP">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[1]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="RSRQ">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[0]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="SINR">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[0]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+				</hc:chart>
+			</componentElement>
+			<staticText>
+				<reportElement x="129" y="20" width="460" height="30" uuid="583da60d-9f1d-491b-b0f1-74488a981a4c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cellular Signal Measurements (RSSI, RSRP, RSCP,RSRQ,SINR)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="380" width="250" height="20" uuid="43d07edd-31a5-4c9f-9fff-ddd158da39cb">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[*RSRQ : Reference Signal Receive Quality]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="590" y="360" width="280" height="20" uuid="7dd336cb-56ba-4eda-850c-4cbe5f27af83">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<text><![CDATA[*SINR : Signal to Interference plus Noise Ratio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="360" width="251" height="20" uuid="283cdf5e-6e3c-4186-a8e7-dd31a345a0b9"/>
+				<text><![CDATA[*RSSI: Received Signal Strength Indicator]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="360" width="250" height="20" uuid="4a947503-ef35-4f45-add6-b9b2a631deae"/>
+				<text><![CDATA[*RSCP : Reference Signal Code Power]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="380" width="251" height="20" uuid="22ba0705-13ed-4fdf-8ad4-820692eadfc8"/>
+				<text><![CDATA[*RSRP : Reference Signal Receive Power]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="120" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="240" y="20" width="270" height="23" uuid="501ef882-4faf-4548-9fd4-2685732a2cc0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RSSI, RSRP, RSCP,RSRQ,SINR]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="240" y="60" width="270" height="20" uuid="a36b634a-a3b3-4b6c-89b6-1c6bab218217">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No Data Found"]]></textFieldExpression>
+			</textField>
+		</band>
+	</noData>
+</jasperReport>

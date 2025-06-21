@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 8.0.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TempCPUMem" pageWidth="955" pageHeight="1005" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="955" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryNewPage="true" uuid="3ab19c89-82ee-4e44-873e-5f12c7fbd57b">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="auxdb_135.250.195.23"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="ireport.jasperserver.url" value="https://135.249.213.25/jasperserver-pro/"/>
+	<property name="ireport.jasperserver.user" value="superuser"/>
+	<property name="ireport.jasperserver.report.resource" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report_files/TemCPUMem.jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report"/>
+	<property name="com.jaspersoft.studio.report.unit.description" value="SAR-Hm LTE signal trend analysis"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<scriptlet name="AnalyticsUDFs" class="com.nokia.nsp.analytics.report.AnalyticsUDFs">
+		<scriptletDescription><![CDATA[]]></scriptletDescription>
+	</scriptlet>
+	<parameter name="endTime" class="net.sf.jasperreports.types.date.TimestampRange">
+		<defaultValueExpression><![CDATA[new net.sf.jasperreports.types.date.DateRangeBuilder("DAY").set(java.sql.Timestamp.class).toDateRange()]]></defaultValueExpression>
+	</parameter>
+	<parameter name="granularity" class="java.lang.Integer">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="timePeriod" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["8 hours"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Node_Name_Pattern" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Node" class="java.lang.String"/>
+	<parameter name="portStatus" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="portNamePattern" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Port" class="java.lang.String"/>
+	<parameter name="nodeType" class="java.lang.String"/>
+	<parameter name="srcTable" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="granularityString" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"Monthly":
+($P{granularity}==3) ?
+"Daily":
+($P{granularity}==2) ?
+"Hourly":
+"Raw Collection Interval"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="startDateFomat" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="endDateFormat" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.adjustEndTime($P{endTime}.getEnd().getTime(), System.currentTimeMillis(), $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
+	</parameter>
+	<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.calTs($P{EndDateQuery}, $P{timePeriod}, $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mainCollectionInterval" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?"(case when collectionInterval<1 then 1 else collectionInterval end) as collectionInterval ,":""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="temperatureUnit" class="java.lang.String">
+		<defaultValueExpression><![CDATA["C"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="granularityStr" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"Monthly":
+($P{granularity}==3) ?
+"Daily":
+($P{granularity}==2) ?
+"Hourly":
+"Raw Collection Interval"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="temperatureRawColumn" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{temperatureUnit}.equalsIgnoreCase( "F") ?"tempFahrenheit":"temperature"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="temperatureAggrColumn" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{temperatureUnit}.equalsIgnoreCase( "F") ?"tempfahrenheit_AbsAvg":"temperature_AbsAvg"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="tempTableName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"samdb.Equipment_HardwareTemperatureLogRecord_month":
+($P{granularity}==3) ?
+"samdb.Equipment_HardwareTemperatureLogRecord_day":
+($P{granularity}==2) ?
+"samdb.Equipment_HardwareTemperatureLogRecord_hour":
+"samdb.equipment_HardwareTemperatureLogRecord"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cpuTableName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"samdb.Equipment_SystemCpuStatsLogRecord_month":
+($P{granularity}==3) ?
+"samdb.Equipment_SystemCpuStatsLogRecord_day":
+($P{granularity}==2) ?
+"samdb.Equipment_SystemCpuStatsLogRecord_hour":
+"samdb.equipment_SystemCpuStatsLogRecord"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SystemMemTableName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"samdb.Equipment_SystemMemoryStatsLogRecord_month":
+($P{granularity}==3) ?
+"samdb.Equipment_SystemMemoryStatsLogRecord_day":
+($P{granularity}==2) ?
+"samdb.Equipment_SystemMemoryStatsLogRecord_hour":
+"samdb.equipment_SystemMemoryStatsLogRecord"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="AllocMemTableName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"samdb.Equipment_AllocatedMemoryStatsLogRecord_month":
+($P{granularity}==3) ?
+"samdb.Equipment_AllocatedMemoryStatsLogRecord_day":
+($P{granularity}==2) ?
+"samdb.Equipment_AllocatedMemoryStatsLogRecord_hour":
+"samdb.equipment_AllocatedMemoryStatsLogRecord"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="AvailMemTableName" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"samdb.Equipment_AvailableMemoryStatsLogRecord_month":
+($P{granularity}==3) ?
+"samdb.Equipment_AvailableMemoryStatsLogRecord_day":
+($P{granularity}==2) ?
+"samdb.Equipment_AvailableMemoryStatsLogRecord_hour":
+"samdb.equipment_AvailableMemoryStatsLogRecord"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="statsQuery" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?
+            "with cpu as ( "+
+                     " select (timeCaptured-(timeCaptured%60000)) as timeCapturedNew, \n"+
+                     " ROUND(avg(systemCpuUsage),2) as cpuUsage, max(periodicTime)/60000 as  collectionInterval  \n"+
+                     " from samdb.equipment_SystemCpuStatsLogRecord where   monitoredObjectSiteId ='"+$P{Node}+"' and  \n"+
+                     " timeCaptured>= ' "+$P{StartDateQuery}+"' and timeCaptured <= '"+$P{EndDateQuery} +"'\n"+
+                     "  and  createdOnPollType=1 and periodicTime>0  group by  timeCapturedNew), \n"+                             
+      
+          "mem as "+
+                    "(select (used.timeCaptured-(used.timeCaptured%60000)) as timeCapturedNew, \n"+
+                    " ROUND((avg(case when allocatedMemoryInKb=0 then 0  \n "+
+                    " else (systemMemoryUsageInKb/(allocatedMemoryInKb+availableMemoryInKb)) end)*100),2) as memUsagePer,  \n"+
+                    " max(used.periodicTime)/60000 as  collectionInterval  \n"+
+                    " from samdb.equipment_SystemMemoryStatsLogRecord used,samdb.equipment_AllocatedMemoryStatsLogRecord  \n"+
+                    " alloc ,samdb.equipment_AvailableMemoryStatsLogRecord avail  \n"+
+					" where (used.timeCaptured-(used.timeCaptured%60000))=(alloc.timeCaptured-(alloc.timeCaptured%60000)) \n "+
+					" and  (used.timeCaptured-(used.timeCaptured%60000))=(avail.timeCaptured-(avail.timeCaptured%60000))  \n"+
+                    " and  used.monitoredObjectSiteId ='"+$P{Node}+"' and   alloc.monitoredObjectSiteId = '"+$P{Node} +"' and \n"+
+                    " alloc.monitoredObjectSiteId ='"+$P{Node} +"' and   \n "+
+                    " used.timeCaptured>= '"+$P{StartDateQuery}+"' and used.timeCaptured <= '"+$P{EndDateQuery} +"'\n"+
+                    "  and  used.createdOnPollType=1 and alloc.createdOnPollType= 1 and  avail.createdOnPollType= 1 \n"+
+                    " and used.periodicTime>0 and alloc.periodicTime>0 and avail.periodicTime>0 \n"+
+                     " group by  timeCapturedNew) ,\n"+ 									 
+  
+        "temper as "+
+                    "(select (timeCaptured-(timeCaptured%60000)) as timeCapturedNew ,  \n"+
+                    " ROUND(avg("+$P{temperatureRawColumn}+"),2)  as temperature , max(periodicTime)/60000 as  collectionInterval \n"+
+                    " from samdb.equipment_HardwareTemperatureLogRecord \n"+
+                    " where    monitoredObjectSiteId = '"+$P{Node} +"' and \n"+
+                    " timeCaptured>= '"+$P{StartDateQuery}+"' and timeCaptured <= '"+$P{EndDateQuery} +"'\n"+
+                    " and createdOnPollType=1 and periodicTime>0 \n "+
+                    " group by timeCapturedNew)"
+                    
+                    :
+               "with cpu as ( "+
+                     "select timeRecorded as timeCapturedNew, \n"+
+                     "ROUND(systemCpuUsage_AbsAvg,2) as cpuUsage \n"+
+                     "from "+$P{cpuTableName}+" where   monitoredObjectSiteId ='"+$P{Node}+"' and "+
+                     "timeRecorded>= '"+$P{StartDateQuery} +"' and timeRecorded <= '"+$P{EndDateQuery} +"'\n"+
+                     "and  createdOnPollType=1 ), \n"+                             
+      
+          "mem as "+
+                    "(select used.timeRecorded as timeCapturedNew, \n"+
+                    "ROUND((case when allocatedmemoryinKb_AbsAvg=0 then 0 \n"+
+                    "else (systemmemoryusageinKb_AbsAvg/(allocatedmemoryinKb_AbsAvg+availablememoryinKb_AbsAvg)) end)*100,2) as memUsagePer\n "+
+                    "from "+ $P{SystemMemTableName}+" used,"+ $P{AllocMemTableName} +" alloc  ,"+  $P{AvailMemTableName} +"  avail  \n"+
+                    "where used.timeRecorded=alloc.timeRecorded and  used.timeRecorded=avail.timeRecorded   \n"+
+                    "and  used.monitoredObjectSiteId = '"+$P{Node}+"' \n"+
+                    "and  alloc.monitoredObjectSiteId = '"+$P{Node}+"' \n"+
+				    "and  avail.monitoredObjectSiteId = '"+$P{Node}+"' and  \n"+
+                    "used.timeRecorded>= '"+$P{StartDateQuery}+"' and used.timeRecorded <= '"+$P{EndDateQuery}+"'\n"+
+                    " and  used.createdOnPollType=1 and alloc.createdOnPollType= 1 and  avail.createdOnPollType= 1  \n"+                   
+                     " ) ,\n"+ 									 
+  
+         "temper as "+
+                    "( select timeRecorded as timeCapturedNew ,ROUND("+$P{temperatureAggrColumn}+",2)\n"+
+                    "as temperature from "+$P{tempTableName} +" where \n"+
+                    "monitoredObjectSiteId = '"+$P{Node}+"' and  \n"+
+                    "timeRecorded>= '"+$P{StartDateQuery}+"' and timeRecorded <= '"+$P{EndDateQuery} +"'\n"+
+                    "and createdOnPollType=1 \n"+
+                    ") \n"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="colIntervalStr" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?
+" (case when cpu.collectionInterval is null and mem.collectionInterval is not null then CAST(mem.collectionInterval as INT)   "+
+"           when cpu.collectionInterval is null and mem.collectionInterval is null and temper.collectionInterval is not null then CAST(temper.collectionInterval as INT)  "+
+"          else CAST(cpu.collectionInterval as INT) end) as collectionInterval,  "
+
+:" "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="gapFillingStr" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==1?
+",X as (  "+
+"            with Y as (  "+
+"                 select samdb.gapFillingEmptySeries(timeRecorded, collectionInterval using  parameters startTime="+ $P{StartDateQuery}+" , endTime=" + $P{EndDateQuery}+" , collectionInterval='Raw')  "+
+"                  OVER (ORDER BY timeRecorded)  from    A  "+
+"            )    "+
+"            select timeRecorded,  0 as nullCounter from Y)     "+
+" select x.timeRecorded, a.cpuUsage,a.temperature,a.memUsagePer from X x  LEFT  JOIN A a on x.timeRecorded=a.timeRecorded order by timeRecorded  "
+:
+"  ,X as (    "+
+"           with Y as (   "+
+"               select samdb.gapFillingEmptySeries(timeRecorded using  parameters startTime="+$P{StartDateQuery} +" , endTime="+ $P{EndDateQuery}+", collectionInterval='"+$P{granularityStr}+"')    "+
+"               OVER (ORDER BY timeRecorded)  from    A   "+
+"           )     "+
+"           select timeRecorded  from Y   "+
+"  )     "+
+"   select x.timeRecorded,a.cpuUsage,a.temperature,a.memUsagePer  from X x  LEFT  JOIN A a on x.timeRecorded=a.timeRecorded order by timeRecorded   "]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[with A as (
+				With B as (
+								 $P!{statsQuery}
+								select (case when cpu.timeCapturedNew is null and mem.timeCapturedNew is not null then mem.timeCapturedNew
+								          when cpu.timeCapturedNew is null and mem.timeCapturedNew is null and temper.timeCapturedNew is not null then temper.timeCapturedNew
+								         else cpu.timeCapturedNew end) as timeRecorded, $P!{colIntervalStr}
+								 cpu.cpuUsage,mem.memUsagePer,temper.temperature from cpu 
+								full join mem on cpu.timeCapturedNew=mem.timeCapturedNew
+								full join temper on ( temper.timeCapturedNew =cpu.timeCapturedNew or temper.timeCapturedNew =mem.timeCapturedNew ) 							
+				)
+                select timeRecorded,
+                $P!{mainCollectionInterval}
+                   cpuUsage,memUsagePer,temperature from B  order by timeRecorded ASC
+) 
+        select a.timeRecorded, a.cpuUsage,a.temperature,a.memUsagePer from  A a order by timeRecorded]]>
+	</queryString>
+	<field name="timeRecorded" class="java.lang.Long">
+		<property name="com.jaspersoft.studio.field.label" value="timeRecorded"/>
+	</field>
+	<field name="cpuUsage" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.label" value="cpuUsage"/>
+	</field>
+	<field name="temperature" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.label" value="temperature"/>
+	</field>
+	<field name="memUsagePer" class="java.lang.Float">
+		<property name="com.jaspersoft.studio.field.label" value="memUsagePer"/>
+	</field>
+	<variable name="tempMin" class="java.lang.Float" calculation="Lowest">
+		<variableExpression><![CDATA[$F{temperature}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<summary>
+		<band height="387" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="160" y="10" width="450" height="30" uuid="8799de0d-0023-49eb-96d8-c6e8ba2a4091"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temperature, CPU, Memory Utilization]]></text>
+			</staticText>
+			<componentElement>
+				<reportElement x="0" y="43" width="940" height="300" uuid="c96c5ed2-f92e-475b-8003-342ad48a1de2">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<hc:chart xmlns:hc="http://jaspersoft.com/highcharts" xsi:schemaLocation="http://jaspersoft.com/highcharts http://jaspersoft.com/schema/highcharts.xsd" type="TimeSeriesLine">
+					<hc:chartSetting name="default">
+						<hc:chartProperty name="credits.enabled" value="false"/>
+						<hc:chartProperty name="credits.text" value=""/>
+						<hc:chartProperty name="yAxis.title.text" value=""/>
+						<hc:chartProperty name="tooltip.shared_customSimpleMode" value="true"/>
+						<hc:chartProperty name="tooltip.shared">
+							<hc:propertyExpression><![CDATA[true]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.floating_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.floating">
+							<hc:propertyExpression><![CDATA[false]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="_showDataPoints">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="chart.showAxes_customSimpleMode" value="true"/>
+						<hc:chartProperty name="chart.showAxes">
+							<hc:propertyExpression><![CDATA[true]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="chart.zoomType" value="xy"/>
+						<hc:chartProperty name="credits.href" value=""/>
+						<hc:chartProperty name="legend.maxHeight_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.maxHeight">
+							<hc:propertyExpression><![CDATA[330]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.symbolRadius_customSimpleMode" value="true"/>
+						<hc:chartProperty name="legend.symbolRadius">
+							<hc:propertyExpression><![CDATA[10]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="plotOptions.line.marker.radius_customSimpleMode" value="true"/>
+						<hc:chartProperty name="plotOptions.line.marker.radius">
+							<hc:propertyExpression><![CDATA[1]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="xAxis.labels.autoRotation">
+							<hc:propertyExpression><![CDATA[Boolean.FALSE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA[""]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="legend.itemMarginBottom"/>
+						<hc:chartProperty name="title.style.fontSize_measureUnit" value="{&quot;key&quot;:&quot;px&quot;,&quot;name&quot;:&quot;px&quot;}"/>
+						<hc:chartProperty name="title.y_measureUnit" value="{&quot;key&quot;:&quot;px&quot;,&quot;name&quot;:&quot;px&quot;}"/>
+						<hc:chartProperty name="title.y_customSimpleMode" value="true"/>
+						<hc:chartProperty name="yAxis.opposite">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="valueDecimals" value="4"/>
+						<hc:chartProperty name="legend.layout" value="horizontal"/>
+						<hc:chartProperty name="tooltip.valueDecimals">
+							<hc:propertyExpression><![CDATA[2]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="plotOptions.line.marker.enabled">
+							<hc:propertyExpression><![CDATA[Boolean.TRUE]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<hc:chartSetting name="yAxis">
+						<hc:chartProperty name="_jrAxisIndex">
+							<hc:propertyExpression><![CDATA[1]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="id">
+							<hc:propertyExpression><![CDATA["id1"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="min" value="0"/>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA["Utilization(%)"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="tooltip.valueSuffix">
+							<hc:propertyExpression><![CDATA[" "]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="yAxis.opposite">
+							<hc:propertyExpression><![CDATA["false"]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<hc:chartSetting name="yAxis">
+						<hc:chartProperty name="_jrAxisIndex">
+							<hc:propertyExpression><![CDATA[0]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="id">
+							<hc:propertyExpression><![CDATA["id0"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="min">
+							<hc:propertyExpression><![CDATA[$V{tempMin}]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="title.text">
+							<hc:propertyExpression><![CDATA["Temperature("+$P{temperatureUnit}+")"]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="tooltip.valueSuffix">
+							<hc:propertyExpression><![CDATA[""]]></hc:propertyExpression>
+						</hc:chartProperty>
+						<hc:chartProperty name="yAxis.Opposite">
+							<hc:propertyExpression><![CDATA["true"]]></hc:propertyExpression>
+						</hc:chartProperty>
+					</hc:chartSetting>
+					<multiAxisData>
+						<multiAxisDataset>
+							<dataset resetType="Report"/>
+						</multiAxisDataset>
+						<dataAxis axis="Rows">
+							<axisLevel name="Time">
+								<labelExpression><![CDATA[]]></labelExpression>
+								<axisLevelBucket class="java.util.Date">
+									<bucketExpression><![CDATA[new Date($F{timeRecorded})]]></bucketExpression>
+								</axisLevelBucket>
+							</axisLevel>
+						</dataAxis>
+						<dataAxis axis="Columns"/>
+						<multiAxisMeasure name="Memory Utilization" class="java.lang.Float" calculation="Nothing">
+							<labelExpression><![CDATA["Memory Utilization"]]></labelExpression>
+							<valueExpression><![CDATA[$F{memUsagePer}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="Temperature" class="java.lang.Double" calculation="Nothing">
+							<labelExpression><![CDATA["Temperature"]]></labelExpression>
+							<valueExpression><![CDATA[$F{temperature}]]></valueExpression>
+						</multiAxisMeasure>
+						<multiAxisMeasure name="CPU Utilization" class="java.lang.Float" calculation="Nothing">
+							<labelExpression><![CDATA["CPU Utilization"]]></labelExpression>
+							<valueExpression><![CDATA[$F{cpuUsage}]]></valueExpression>
+						</multiAxisMeasure>
+					</multiAxisData>
+					<hc:series name="Temperature">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[0]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="CPU Utilization">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[1]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+					<hc:series name="Memory Utilization">
+						<hc:contributor name="SeriesProperty">
+							<hc:contributorProperty name="yAxis" valueType="Expression">
+								<hc:valueExpression><![CDATA[1]]></hc:valueExpression>
+							</hc:contributorProperty>
+						</hc:contributor>
+					</hc:series>
+				</hc:chart>
+			</componentElement>
+			<staticText>
+				<reportElement x="60" y="352" width="430" height="30" uuid="3ab97d30-d0a6-4927-8f92-f5e20a18a8d5"/>
+				<textElement>
+					<font isItalic="true"/>
+				</textElement>
+				<text><![CDATA[*Memory Usage=((System Memory Usage/(Allocated Memory+Available Memory))*100)]]></text>
+			</staticText>
+		</band>
+	</summary>
+	<noData>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="250" y="10" width="270" height="23" uuid="56b566d2-be6f-41df-b0c3-4481e9706297"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Temperature, CPU, Memory Utilization]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="250" y="50" width="270" height="20" uuid="e5b0e76f-9811-4ca4-9c59-7912fec95f87">
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["No Data Found"]]></textFieldExpression>
+			</textField>
+		</band>
+	</noData>
+</jasperReport>
