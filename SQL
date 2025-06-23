@@ -1,0 +1,505 @@
+with SAP as (
+select * from 
+  ( 
+select * from 
+                        (select T1.portname,aaSubname,serviceName,svcComponentId,customerName,nodeId,actualSpeed,
+                        T1.fullName,ingressPolicyId	,ingressSchedulerName,egressSchedulerName,egressPolicyId,sasIngressPolicyId,sasEgressPolicyId,sapIngressCounterType, T1.displayedName as sapdisplayedName
+						from samdb.analytics_business_aa_sub T1 ,
+						( select displayedName, portName, siteId, fullname,NVL((actualSpeed),0) as actualSpeed from samdb.analytics_PhysicalPort T1
+                        where  displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+                        and T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_PhysicalPort T2 where T1.fullname=T2.fullname )
+                        union all
+                        select displayedName as displayedName, displayedName as portName, siteId, fullname,NVL((lagOperationalSpeed),0) as actualSpeed from samdb.analytics_lagInterface T1
+                        where  displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+                        and T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_lagInterface T2 where T1.fullname=T2.fullname )
+                        union all
+                        select a.displayedname, a.displayedname as portName,a.siteid, a.fullname,b.actualspeed from    (                                        
+ (select g1.fullname,   g1.displayedname, g1.siteid 
+ from         samdb.analytics_DS0ChannelGroup g1      
+ where  g1.timerecorded=(select max(timerecorded) from samdb.analytics_DS0ChannelGroup g2
+where g1.fullname =g2.fullname )
+and displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+)a  
+inner join
+
+(select g1.fullname ,
+
+cast (BITCOUNT(HEX_TO_BINARY(TO_HEX(t1.timeSlotBits)))*125  as numeric(16,2)) actualSpeed
+from 
+samdb.analytics_DS0ChannelGroup g1 
+inner join samdb.analytics_DS0ChannelGroupSpecifies T1 on g1.siteid=t1.siteid 
+and g1.fullname =  replace(t1.fullname , ':ds0GrpSpecs','') 
+where  g1.timerecorded=(select max(timerecorded) from samdb.analytics_DS0ChannelGroup g2
+where g1.fullname =g2.fullname )
+and T1.timeRecorded=(Select MAX(T2.timeRecorded)
+						 from samdb.analytics_DS0ChannelGroupSpecifies T2 
+						 where T1.fullname=T2.fullname   )
+						
+)b	
+
+on a.fullname=b.fullname
+)
+
+						) port
+                         where  T1.portName=$P{Port_Lag}  and nodeId=$P{nodelist} and T1.aaSubType like '%access interface' 
+                         and T1.portName=port.displayedName and T1.nodeId=port.siteId
+                        
+						and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_business_aa_sub T2 
+						where T1.fullname=T2.fullname  and NOT(T2.actiontype=1 ) )  )
+                ) X
+                left join 
+                ( select  systemAddress,T3.displayedName as NodeName,
+							( case when (T3.displayedname like  '7750-SR%' or  T3.displayedname like  '7750 SR%'  or  T3.displayedname like  '7250%' or  T3.displayedname like  '7950%'   or  T3.displayedname like  '7450%' or T3.displayedname like 'VSR%') then 7750
+								when T3.displayedname like  '7705%' then 7705
+								when T3.displayedName like '7210%' then 7210
+								else chassisType end ) as chassisType
+ 
+						from samdb.analytics_network_element T1 JOIN samdb.auxDbEnumTable T3
+						on (T1.chassisType = T3.value)
+						
+						where T3.enumType='ShelfType' AND  systemAddress=$P{nodelist}   and
+							( T3.displayedname like  '7750-SR%'   or  T3.displayedname like  '7750 SR%' or    T3.displayedname like  '7250%' or T3.displayedname like  '7950%'   or  T3.displayedname like  '7450%' or T3.displayedname like 'VSR%'  -- sr variants
+								or T3.displayedname like  '7705%'  --sar    
+								or T3.displayedname like '7210%'	
+			
+							)			
+			
+						and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_network_element T2 where T1.fullname=T2.fullname) and NOT(actiontype=1 ) )
+                )Y
+                on X.nodeId=Y.systemAddress 
+)business_aa_sub
+
+left join
+
+ (
+  select  serviceType,serviceId,serviceFullName,customerID,svcManagerId from (
+          (select  serviceType,serviceId,id as svcManagerId,fullName as serviceFullName,customerName from samdb.analytics_service T1 
+            where  (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_service T2 where T1.fullname=T2.fullname) 
+            and NOT(actiontype=1 ) )
+          )C
+          left join
+          (
+           select  SUBSTRING(fullname,12) as customerID,fullname,subscriberName from samdb.analytics_customer T1 
+            where  (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_customer T2 
+                                          where T1.fullname=T2.fullname) 
+                                           and NOT(actiontype=1) )
+          )D
+          on C.customerName=D.subscriberName) x
+ ) servicedetails
+on business_aa_sub.svcComponentId=servicedetails.svcManagerId
+
+
+)
+,schParent as(
+select cir, pir, fullName, nextSchedulerName, displayedName, siteId,containingPolicyDisplayedName 
+ from samdb.analytics_Scheduler T1 where T1.timerecorded=(select max(T2.timerecorded) 
+ from samdb.analytics_scheduler T2 where T1.fullName=T2.fullName
+	 and  NOT(actiontype=1) 
+)
+and siteId!='0.0.0.0' and  siteId=$P{nodelist}  
+)
+
+, scheduler as  (
+    select a.l3fullName,a.l3displayedName, a.l3siteId, a.l3containingPolicyDisplayedName,
+             (case
+when a.l3cir=-1 and a.l2cir=-1 and tier1.l1cir=-1 then -1
+when a.l3cir=-1 and a.l2cir=-1 then tier1.l1cir
+when a.l3cir=-1 then a.l2cir
+else a.l3cir
+end ) as cir
+             , 
+(case
+when a.l3pir=-1 and a.l2pir=-1 and tier1.l1pir=-1 then -1
+when a.l3pir=-1 and a.l2pir=-1 then tier1.l1pir
+when a.l3pir=-1 then a.l2pir
+else a.l3pir
+end )
+as pir from
+(select *
+  from 
+(select cir as l3cir ,pir as l3pir,fullName  as l3fullName, nextSchedulerName as l3nextSchedulerName, displayedName as l3displayedName, siteId as l3siteId ,
+	containingPolicyDisplayedName as l3containingPolicyDisplayedName from schParent )child
+
+left outer join 
+(select cir as l2cir,pir as l2pir,fullName as l2fullName, nextSchedulerName as l2nextSchedulerName, displayedname as l2displayedName, siteId as l2siteId ,
+		containingPolicyDisplayedName as l2containingPolicyDisplayedName from schParent
+)parent
+
+on parent.l2displayedName=child.l3nextSchedulerName)a
+left join 
+
+(select cir as l1cir,pir as l1pir ,fullName as l1fullName, nextSchedulerName as l1nextSchedulerName, displayedname as l1displayedName, siteId as l1siteId,
+	containingPolicyDisplayedName as l1containingPolicyDisplayedName from schParent
+)tier1
+on tier1.l1displayedName=a.l2nextSchedulerName
+
+)
+
+
+,PolicyControl as (
+select 0 as cir,maxframeBasedBW as PIR , fullname,parentArbiter as nextSchedulerName, displayedName,siteId,containingPolicyDisplayedName ,timerecorded
+from samdb.analytics_policercontrolArbiter T1 where  T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_policercontrolArbiter T2 
+where T1.fullName=T2.fullName  
+ and NOT(actiontype=1) ) 
+and siteId!='0.0.0.0'  and  siteId=$P{nodelist} 
+)
+
+--select * from PolicyControl
+
+,PolicyControl_temp as (
+select a.l3fullName,a.l3displayedName, a.l3siteId, a.l3containingPolicyDisplayedName,
+(case
+ when a.l3cir=-1 and a.l3nextschedulerName like 'root' then -1
+ when a.l3cir=-1 and a.l2cir=-1  then -1
+ when a.l3cir=-1 then a.l2cir
+ else a.l3cir
+ end ) as cir,
+ (case
+ when a.l3pir=-1 and a.l3nextschedulerName like 'root' then -1
+ when a.l3pir=-1 and a.l2pir=-1  then -1
+ when a.l3pir=-1 then a.l2pir
+ else a.l3pir
+ end )
+ as pir from (
+select child.cir as l3cir, parent.cir as l2cir,
+ child.pir as l3pir, parent.pir as l2pir,
+ child.fullName as l3fullName, parent.fullName as l2fullName,
+ child.nextSchedulerName as l3nextSchedulerName, parent.nextSchedulerName as l2nextschedulerName,
+ child.displayedName as l3displayedName, parent.displayedName as l2displayedName,
+ child.siteId as l3siteId, parent.siteId as l2siteId,
+ child.containingPolicyDisplayedName as l3containingPolicyDisplayedName, parent.containingPolicyDisplayedName as l2containingPolicyDisplayedName
+  from
+PolicyControl child
+left outer join
+PolicyControl parent
+on parent.displayedName=child.nextSchedulerName and  child.siteId=parent.siteId ) a
+
+)
+
+--select * from PolicyControl_temp
+
+
+ 
+,IngressSapQueue as (
+
+with  queuesIngress as (
+     select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, queueSch.fullName, ingressPolicyId, queueId, policerId, meterId,direction,
+
+ ( case when rateType =3  and queueId >0  and schCIR is not null  then percentcir else coalesce(schCIR,override.cir, percentcir)  end )  as cir ,
+ ( case when rateType =3  and queueId >0  and schPIR is not null  then percentpir else coalesce(schPIR, override.pir, percentpir) end )  as pir,
+cirPercent,pirPercent,rateType,percentcir,percentpir,
+containingPolicyID, queueSch.displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed,ingressSchedulerName, egressSchedulerName
+from
+(select portname,queues.aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,queues.nodeId,queues.NodeName,queues.fullName,queues.queueFullName, queues.ingressPolicyId, queueId, policerId,meterId,direction,
+sch.cir as schCIR, sch.pir as schPIR, 
+pc.cir as pcCIR , pc.pir as pcPIR ,
+queues.cir as qCIR, queues.pir as qPIR,
+ cirPercent,pirPercent,rateType,  
+		( case when (rateType =1 or rateType =0) and queueId >0 then  queues.cir 
+		      when  rateType =2  and queueId >0 then (cirPercent/100 * actualSpeed)   --percent port limit 
+		      when  rateType =3  and queueId >0  and sch.cir is not null then (cirPercent/100 * sch.cir)  --percent local limit with scheduler 
+		      when  rateType =3  and queueId >0  and sch.cir is null then (cirPercent/100 * actualSpeed)  --percent local limit withoutdd scheduler 
+		      when  (rateType =1 or rateType =0)  and policerId>0 then queues.cir 
+		      when  rateType =2  and policerId>0 and pc.cir is not null then (cirPercent/100 * pc.cir)
+		      when  rateType =2  and policerId>0 and pc.cir is null then (cirPercent/100 * actualSpeed) 
+		       end ) percentcir, 
+		( case when (rateType =1 or rateType =0)  and queueId >0 then  queues.pir 
+		      when rateType =2   and queueId >0 then (pirPercent/100 * actualSpeed) 
+	      when rateType =3   and queueId >0  and sch.pir is not null then (pirPercent/100 * sch.pir) 
+		      when rateType =3   and queueId >0 and sch.pir is null then (pirPercent/100 * actualSpeed) 
+	      when (rateType =1 or rateType =0)   and policerId>0 then queues.pir 
+		      when rateType =2   and policerId>0 and pc.pir is not null then (pirPercent/100 * pc.pir) 
+	      when rateType =2   and policerId>0 and pc.pir is null then (pirPercent/100 * actualSpeed) 
+	       end ) percentpir, 
+queues.containingPolicyId,queues.displayedName,queues.siteId,queues.chassisType,queues.sapIngressCounterType, queues.scheduler,queues.actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from    (
+        select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,ingressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType ,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed ,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select  portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,ingressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7750,7705) ) Y 
+		inner join
+                
+                (select scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessQueue T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist} 
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessQueue T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.ingressPolicyId) 
+                )   
+              
+               union all
+                
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,ingressPolicyId,-1 as queueId,id as policerId,-1 as meterId,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,ingressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7750) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessPolicer T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessPolicer T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 )) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.ingressPolicyId) 
+                )  
+
+                union all
+        
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasIngressPolicyId,-1 as queueId,-1 as policerId,id as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType,scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasIngressPolicyId,chassisType,sapIngressCounterType,actualSpeed ,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7210) ) Y inner join
+                
+                (select  'N/A' as scheduler, id,cir,pir,0 as cirPercent,0 as pirPercent,0 as rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasMeter T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasMeter T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasIngressPolicyId) 
+                )  
+                
+                union all
+                
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasIngressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasIngressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7210) ) Y inner join
+                
+                (select  'N/A' as scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasAccessQueue T1 
+                  where T1.policyLevel=0 and T1.direction=0 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasAccessQueue T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasIngressPolicyId) 
+                )
+                
+
+                
+             )queues
+             
+             
+             left join 
+             
+             (
+             
+         select * from scheduler )sch
+             
+             on queues.scheduler=sch.l3displayedName
+             and queues.siteId=sch.l3siteId
+             and queues.ingressSchedulerName=sch.l3containingPolicyDisplayedName
+	         left join PolicyControl_temp pc  
+               on queues.scheduler=pc.l3displayedName 
+            and queues.siteId=pc.l3siteId      
+ ) queueSch
+             left join 
+             (
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyQueuePointer  as queuePointer, parentName from samdb.analytics_ingressQueueOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_ingressQueueOverride T2 
+where T1.fullName=T2.fullName  and NOT(actiontype=1)  )
+
+union
+select  fullName, 'N/A' as displayedName, siteId, cir, pir, policerPointer as queuePointer, parentName from samdb.analytics_ingressPolicerOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_ingressPolicerOverride T2 
+where T1.fullName=T2.fullName  and NOT(actiontype=1) )
+union 
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyMeterPointer as queuePointer , parentName from samdb.analytics_IngressMeterOverride T1
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_IngressMeterOverride T2 where T1.fullName=T2.fullName  and NOT(actiontype=1) ) 
+
+
+             )override
+             on (override.queuePointer=queueSch.queueFullName  and queueSch.sapDisplayedName = override.parentName)
+                
+        )
+        
+ --select * from   queuesingress    
+
+
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, fullName, ingressPolicyId, queueId, policerId, meterId,direction,
+  (case when cir=-2 then 0
+        else cir
+        end)
+        as cir,
+        (case when pir=-1 then actualSpeed
+        else pir
+        end)
+        as pir,
+containingPolicyID, displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed
+      
+       
+        from queuesingress  
+)
+
+
+
+--select * from IngressSapQueue
+
+,EgressSapQueue as (
+
+with  queuesEgress as (
+        
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, queueSch.fullName, egressPolicyId, queueId, policerId, meterId,direction,
+--schCIR,override.cir, qcir,
+--schPIR, override.pir, qpir,
+ ( case when rateType =3  and queueId >0  and schCIR is not null  then percentcir else coalesce(schCIR,override.cir, percentcir)  end ) as cir ,
+ ( case when rateType =3  and queueId >0  and schPIR is not null  then percentpir else coalesce(schPIR, override.pir, percentpir) end ) as pir,
+
+cirPercent,pirPercent,rateType,percentcir,percentpir,
+containingPolicyID, queueSch.displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed ,ingressSchedulerName, egressSchedulerName
+from
+(select portname,queues.aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,queues.nodeId,queues.NodeName,queues.fullName,queues.queueFullName, queues.egressPolicyId, queueId, policerId,meterId,direction,
+sch.cir as schCIR, sch.pir as schPIR, 
+pc.cir as pcCIR , pc.pir as pcPIR ,
+queues.cir as qCIR, queues.pir as qPIR,
+ cirPercent,pirPercent,rateType,  
+		( case when (rateType =1 or rateType =0) and queueId >0 then  queues.cir 
+		      when  rateType =2  and queueId >0 then (cirPercent/100 * actualSpeed)   --percent port limit 
+		      when  rateType =3  and queueId >0  and sch.cir is not null then (cirPercent/100 * sch.cir)  --percent local limit with scheduler 
+		      when  rateType =3  and queueId >0  and sch.cir is null then (cirPercent/100 * actualSpeed)  --percent local limit withoutdd scheduler 
+		      when  (rateType =1 or rateType =0)  and policerId>0 then queues.cir 
+		      when  rateType =2  and policerId>0 and pc.cir is not null then (cirPercent/100 * pc.cir)
+		      when  rateType =2  and policerId>0 and pc.cir is null then (cirPercent/100 * actualSpeed) 
+		       end ) percentcir, 
+		( case when (rateType =1 or rateType =0)  and queueId >0 then  queues.pir 
+		      when rateType =2   and queueId >0 then (pirPercent/100 * actualSpeed) 
+	      when rateType =3   and queueId >0  and sch.pir is not null then (pirPercent/100 * sch.pir) 
+		      when rateType =3   and queueId >0 and sch.pir is null then (pirPercent/100 * actualSpeed) 
+	      when (rateType =1 or rateType =0)   and policerId>0 then queues.pir 
+		      when rateType =2   and policerId>0 and pc.pir is not null then (pirPercent/100 * pc.pir) 
+	      when rateType =2   and policerId>0 and pc.pir is null then (pirPercent/100 * actualSpeed) 
+	       end ) percentpir, 
+queues.containingPolicyId,queues.displayedName,queues.siteId,queues.chassisType,queues.sapIngressCounterType, queues.scheduler,queues.actualSpeed ,ingressSchedulerName, egressSchedulerName,sapDisplayedName from 
+        (
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,egressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName ,1 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName, fullName,egressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7750,7705) ) Y inner join
+                
+                (select scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessQueue T1 
+                  where T1.direction=1 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessQueue T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.egressPolicyId) 
+                )  
+                
+
+                UNION ALL
+
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,egressPolicyId,-1 as queueId,id as policerId,-1 as meterId,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName ,1 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName, fullName,egressPolicyId,chassisType,sapIngressCounterType ,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7750) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessPolicer T1 
+                  where T1.direction=1 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessPolicer T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.egressPolicyId) 
+                )   
+                               
+                
+                UNION ALL
+      --SAS and IXR          
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasEgressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,1 as direction,siteId,chassisType,sapIngressCounterType , scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasEgressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7210) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasAccessQueue T1 
+                  where T1.policyLevel=0 and T1.direction=1 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasAccessQueue T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasEgressPolicyId) 
+                )  
+                
+             )queues
+             
+        
+             
+             
+             left join 
+             
+             (
+             
+              select * from scheduler  ) sch
+             
+             on queues.scheduler=sch.l3displayedName
+             and queues.siteId=sch.l3siteId
+              and queues.egressSchedulerName=sch.l3containingPolicyDisplayedName 
+	       left join PolicyControl_temp pc  
+               on queues.scheduler=pc.l3displayedName 
+            and queues.siteId=pc.l3siteId ) queueSch
+             left join 
+             (
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyQueuePointer  as queuePointer,parentName from samdb.analytics_EgressQueueOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_EgressQueueOverride T2 where T1.fullName=T2.fullName and NOT(actiontype=1) )
+
+union
+select  fullName, 'N/A' as displayedName, siteId, cir, pir, policerPointer as queuePointer,parentName from samdb.analytics_EgressPolicerOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_EgressPolicerOverride T2 where T1.fullName=T2.fullName  and NOT(actiontype=1)  )
+
+
+             )override
+             on (override.queuePointer=queueSch.queueFullName  and queueSch.sapDisplayedName = override.parentName)
+                
+        )
+        
+--select * from   queuesEgress    
+
+
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, fullName, egressPolicyId, queueId, policerId, meterId,direction,
+  (case when cir=-2 then 0
+        else cir
+        end)
+        as cir,
+        (case when pir=-1 then actualSpeed
+        else pir
+        end)
+        as pir,
+containingPolicyID, displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed
+      
+       
+        from queuesEgress  
+)
+
+
+--select * from EgressSapQueue
+       
+
+,IngresStats as (  $P!{compareIngress} )  
+
+ ,EgresStats as (  $P!{compareegress} ) 
+
+ , customerIngress as ( select  PortName,serviceName,customerName,customerID,serviceId,serviceType,serviceFullName,  SUM(case when cir<0 then 0 else cir end) as ingressCir ,  SUM(case when pir<0 then 0 else pir end) as ingressPir, 
+ SUM(( case when (chassisType=7750 and Isq.queueId >0 ) then inProfTpt+outProfTpt 
+ when ( chassisType=7750 and Isq.policerId>0 and statmode='minimal' ) then  allOctTpt 
+ when ( chassisType=7750 and Isq.policerId>0 and statmode is not null and statmode !='offered-priority-no-cir' and statmode !='') then  inProfTpt+outProfTpt 
+   when ( chassisType=7250 and Isq.policerId>0  ) then inProfTpt+outProfTpt 
+  when ( chassisType=7705 ) then inProfTpt+outProfTpt 
+  when (NodeName like '%SAS-K%'  and Isq.queueId> 0) then inProfTpt+outProfTpt 
+ when (chassisType=7210 and  sapIngressCounterType = 2 ) then octetsTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId = -1 and Isq.meterId = -1 ) then inProfTpt+outProfTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId> 0 and Isq.meterId = -1 ) then octetsTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId= -1 and Isq.meterId > 0 ) then  inProfTpt+outProfTpt   
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId> 0 and Isq.meterId > 0 ) then  octetsTpt  
+when (chassisType=7210 and  sapIngressCounterType =-1 and Isq.queueId> 0  ) then  inProfTpt+outProfTpt  	
+else 0 end )) as ingressActualTpt
+   from IngressSapQueue Isq LEFT JOIN IngresStats Ist  on (Isq.fullName=Ist.monitoredObjectPointer and (Isq.queueId=Ist.queueId and  Isq.meterId=Ist.meterId and Isq.policerId=Ist.policerId) ) 
+ group by portname,customerID,customerName,serviceFullName,serviceId,serviceName,serviceType  )
+ 
+ ,customerEgress as (   select portname, serviceName,customerName,customerID, serviceId,serviceType,serviceFullName,  SUM(case when cir<0 then 0 else cir end) as egressCir, 
+  SUM(case when pir<0 then 0 else pir end) as egressPir, 
+   SUM(( case when (chassisType=7750 and Esq.queueId >0 ) then inProfTpt+outProfTpt 
+   when ( chassisType=7750 and Esq.policerId>0 and statmode='minimal' ) then allOctTpt 
+   when ( chassisType=7750 and Esq.policerId>0 and statmode is not null and statmode !='') then inProfTpt+outProfTpt 
+   when ( chassisType=7705 ) then inProfTpt+outProfTpt 
+   when (NodeName like '%SAS-K%' and Esq.queueId >0) then  inProfTpt+outProfTpt 
+  when (chassisType in (7210) ) then octetsTpt  end )) as egressActualTpt    
+   from EgressSapQueue Esq LEFT JOIN EgresStats Est on (Esq.fullName=Est.monitoredObjectPointer  and (Esq.queueId=Est.queueId and  Esq.meterId=Est.meterId and  Esq.policerId=Est.policerId) )
+ group by portname,customerID,customerName,serviceFullName,serviceId,serviceName,serviceType ) 
+	
+select PortName ,ServiceName,CustomerName,CustomerID,ServiceId,ServiceType,OAMServicetype,ServiceFullName,IngressCir,IngressPir,IngressActualTpt,EgressCir,EgressPir,EgressActualTpt,IngressUtilization,EgressUtilization,-1 as IngCustActualTpt,-1 as EgrCustActualTpt,( case when ingressUtilization>=egressUtilization then ingressUtilization else egressUtilization end ) as worstUtilization from
+ (	
+ 	select  	
+
+	NVL(customerIngress.portname,customerEgress.portname) portname,
+	NVL(customerIngress.serviceName,customerEgress.serviceName) serviceName,			
+	NVL(customerIngress.customerName,customerEgress.customerName)	customerName,		
+	NVL(customerIngress.customerID,customerEgress.customerID) customerID,			
+	NVL(customerIngress.serviceId,customerEgress.serviceId) serviceId,						
+	NVL(customerIngress.serviceType,customerEgress.serviceType) serviceType,	
+	  (case when  (upper(customerIngress.serviceType) like '%EPIPE%' or upper(customerEgress.serviceType) like '%EPIPE%' ) then 1 
+             when  (upper(customerIngress.serviceType) like '%VPLS%' or upper(customerEgress.serviceType) like  '%VPLS%' ) then 3
+             when  (upper(customerIngress.serviceType) like '%VPRN%' or upper(customerEgress.serviceType) like  '%VPRN%' )   then 4
+              when  (upper(customerIngress.serviceType) like '%CPIPE%' or upper(customerEgress.serviceType) like  '%CPIPE%' )   then 12
+             when  (upper(customerIngress.serviceType) like '%MVPLS%' or upper(customerEgress.serviceType) like  '%MVPLS%' )   then 103 else 0 end ) as OAMServicetype,		
+	NVL(customerIngress.serviceFullName,customerEgress.serviceFullName) serviceFullName,		
+
+	NVL(customerIngress.ingressCir,	0) ingressCir,		
+	NVL(customerIngress.ingressPir,	0) ingressPir,		
+	NVl(customerIngress.ingressActualTpt,0) as ingressActualTpt,			
+	NVl(customerEgress.egressCir,0) egressCir,			
+	NVl(customerEgress.egressPir,0) egressPir,			
+	NVl(customerEgress.egressActualTpt,0) as egressActualTpt,			
+	CAST( (case when (customerIngress.ingressPir<=0 or customerIngress.ingressActualTpt=0 or customerIngress.ingressActualTpt is null) then 0  else round(((customerIngress.ingressActualTpt/customerIngress.ingressPir)*100),2) end) as numeric(16,2)) as ingressUtilization,			
+	CAST( (case when (customerEgress.egressPir<=0 or customerEgress.egressActualTpt=0 or customerEgress.egressActualTpt is null) then 0  else round(((customerEgress.egressActualTpt/customerEgress.egressPir)*100),2) end) as numeric(16,2)) as egressUtilization 		
+
+	from customerIngress full join customerEgress	
+	on (customerIngress.serviceFullName=customerEgress.serviceFullName and customerIngress.customerID=customerEgress.customerID)
+) Final
+	 order by customerName asc,worstUtilization desc
