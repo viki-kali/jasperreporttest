@@ -1,23 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 8.0.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Signaling_Trend_Analysis" pageWidth="1200" pageHeight="1300" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isSummaryNewPage="true" isIgnorePagination="true" uuid="50efd2c4-04ba-43bf-a102-70e2a897c3f2">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="service_utilization_per_port_report" pageWidth="1150" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="1110" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="054f2884-00d5-4916-a088-ebfe8b4fc755">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DivyaAux"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="135.249.147.183"/>
 	<property name="ireport.jasperserver.url" value="https://135.249.213.25/jasperserver-pro/"/>
 	<property name="ireport.jasperserver.user" value="superuser"/>
-	<property name="ireport.jasperserver.report.resource" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report_files/main_jrxml"/>
-	<property name="ireport.jasperserver.reportUnit" value="/Reports/Network_and_Service/Utilization/vikitest/Signalling_Trend_Analysis_Report"/>
-	<property name="com.jaspersoft.studio.report.unit.description" value="SAR-Hm LTE signal trend analysis"/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="140"/>
-	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="855"/>
-	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
-	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="ireport.jasperserver.report.resource" value="/Reports/Network_and_Service/Utilization/vikitest/Service_Utilization_Per_Port_files/main_jrxml"/>
+	<property name="ireport.jasperserver.reportUnit" value="/Reports/Network_and_Service/Utilization/vikitest/Service_Utilization_Per_Port"/>
+	<property name="com.jaspersoft.studio.report.unit.description" value="Utilization(%) of services for a selected Port"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<style name="Table_CH_FIRST" mode="Opaque" forecolor="rgba(0, 0, 0, 0.5411765)" backcolor="#FAFAFA" hTextAlign="Left" vTextAlign="Middle" fontSize="12" isBold="true">
 		<box topPadding="0" leftPadding="10" bottomPadding="0" rightPadding="0">
 			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
@@ -66,12 +85,73 @@
 			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
 		</box>
 	</style>
-	<subDataset name="SummaryDataset" uuid="4223a819-e688-4c4f-82c6-abdd43f7374d">
+	<style name="Table_TD_LINK" mode="Opaque" forecolor="#124191" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" fontSize="11" isUnderline="true">
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+		</box>
+	</style>
+	<style name="Table_TD_LAST_LINK" mode="Opaque" forecolor="#124191" backcolor="#FFFFFF" hTextAlign="Right" vTextAlign="Middle" fontSize="11" isUnderline="true">
+		<box rightPadding="24">
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+		</box>
+	</style>
+	<style name="TD_ping_link" style="Table_TD_LINK" mode="Opaque" forecolor="#050505" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" fontSize="11" isUnderline="false">
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{OAMServicetype}==1 || $F{OAMServicetype}==3  || $F{OAMServicetype}==4 
+|| $F{OAMServicetype}==12 || $F{OAMServicetype}==103]]></conditionExpression>
+			<style mode="Opaque" forecolor="#124191" backcolor="#FFFFFF" isUnderline="true"/>
+		</conditionalStyle>
+	</style>
+	<style name="TD_OAM" style="Table_TD_LINK" mode="Opaque" forecolor="#050505" backcolor="#FFFFFF" hTextAlign="Left" vTextAlign="Middle" fontSize="11" isUnderline="false">
+		<box>
+			<topPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+			<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(0, 0, 0, 0.11764706)"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{OAMServicetype}==1 || $F{OAMServicetype}==3  || $F{OAMServicetype}==4 
+ || $F{OAMServicetype}==103]]></conditionExpression>
+			<style mode="Opaque" forecolor="#124191" backcolor="#FFFFFF" isUnderline="true"/>
+		</conditionalStyle>
+	</style>
+	<subDataset name="service_details" uuid="d7f2cac3-d80d-45c9-b189-9a3eb3ab15c5">
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DivyaAux"/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Vertica_Adapter_28_198"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="0"/>
+		<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="1000"/>
 		<scriptlet name="AnalyticsUDFs" class="com.nokia.nsp.analytics.report.AnalyticsUDFs">
 			<scriptletDescription><![CDATA[]]></scriptletDescription>
 		</scriptlet>
+		<parameter name="d_sr" class="java.lang.Long"/>
+		<parameter name="d_sas" class="java.lang.Long"/>
+		<parameter name="d_sap" class="java.util.Collection"/>
+		<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+		</parameter>
+		<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+		</parameter>
+		<parameter name="imgParam" class="java.lang.String">
+			<defaultValueExpression><![CDATA["default (Nokia)"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="imgPosition" class="java.lang.String">
+			<parameterDescription><![CDATA[]]></parameterDescription>
+			<defaultValueExpression><![CDATA["Left"]]></defaultValueExpression>
+		</parameter>
+		<parameter name="periodicTimeGranularity" class="java.lang.Integer"/>
 		<parameter name="endTime" class="net.sf.jasperreports.types.date.TimestampRange"/>
 		<parameter name="granularity" class="java.lang.Integer">
 			<parameterDescription><![CDATA[]]></parameterDescription>
@@ -80,97 +160,611 @@
 			<parameterDescription><![CDATA[]]></parameterDescription>
 		</parameter>
 		<parameter name="nodeType" class="java.lang.String"/>
-		<parameter name="Node_Name_Pattern" class="java.lang.String"/>
-		<parameter name="Node" class="java.lang.String"/>
-		<parameter name="portStatus" class="java.lang.Integer">
-			<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+		<parameter name="nodeNamePattern" class="java.lang.String">
+			<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
 		</parameter>
-		<parameter name="portNamePattern" class="java.lang.String">
-			<parameterDescription><![CDATA[]]></parameterDescription>
+		<parameter name="nodelist" class="java.lang.String"/>
+		<parameter name="Port_NamePattern" class="java.lang.String">
+			<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
 		</parameter>
-		<parameter name="Port" class="java.lang.String"/>
-		<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
-			<parameterDescription><![CDATA[]]></parameterDescription>
+		<parameter name="Port_Lag" class="java.lang.String"/>
+		<parameter name="Display_Service_Full_Name" class="java.lang.Boolean"/>
+		<parameter name="srcTableIngressSR" class="java.lang.String" isForPrompting="false"/>
+		<parameter name="srcTableIngressSAR" class="java.lang.String" isForPrompting="false"/>
+		<parameter name="srcTableEgressSR" class="java.lang.String" isForPrompting="false"/>
+		<parameter name="srcTableEgressSAR" class="java.lang.String" isForPrompting="false"/>
+		<parameter name="compareegress" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{d_sr} >=1 && $P{d_sas} >=1?
+
+ "   "+   $P{srcTableEgressSR}   + "  \n    "+
+"      union   \n  " +
+ "   "+	 $P{srcTableEgressSAR}  + "   "
+ 
+
+ :
+
+
+ $P{d_sr} >=1 && $P{d_sas} ==0?
+ 
+  "   "+   $P{srcTableEgressSR}   + "   "
+  :
+  
+   $P{d_sr} ==0 && $P{d_sas} >=1?
+   
+ "   "+	 $P{srcTableEgressSAR}  + "   "
+ 
+  :
+ 
+"select '135.251' Nodename,'port1/1/1' as portname,'hybrid' as PortMode ,14 as queueid,'fc' as forwardingclass , 0 as ingressinprofilepktsdropped,0 as ingressinprofileoctetsdropped,0 as ingressoutofprofilepktsdropped,0 as ingressoutofprofileoctetsdropped    "+
+ ",0 as egressinprofilepktsdropped,0 as egressinprofileoctetsdropped,0 as egressoutofprofilepktsdropped,0 as egressoutofprofileoctetsdropped,0 as totalpktsdropped,0 as totaloctetsdropped from dual  "]]></defaultValueExpression>
 		</parameter>
-		<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false"/>
-		<queryString language="SQL">
-			<![CDATA[Select distinct t1.displayedName,cellularImei,cellPortWirelessTechnology,cellPortRssi,cellPortRsrp,cellPortRscp,cellPortRsrq,cellPortSinr,cellPortFrequencyBand,cellPortChanNum,cellPortCellIdentity,cellPortAreaCode
-,cellPortBand125MaxPowerLevel, shelf.manufacturerBoardNumber ,
-cellPortRegistrationStatus
-from samdb.analytics_cellularportspecific t1
-inner join samdb.analytics_PhysicalPort port on port.fullName=substr(t1.fullName,1 ,(instr(t1.fullName , ':cell', 1,1)-1))
-inner join samdb.analytics_physicalShelf shelf on (shelf.shelfId=port.shelfId and shelf.siteId=port.siteId)
-where t1.timerecorded=(select max(timerecorded) from samdb.analytics_cellularportspecific t2 where t1.fullName=t2.fullName)
-and port.timerecorded=(select max(timerecorded) from samdb.analytics_PhysicalPort t2 where port.fullName=t2.fullName)
-and shelf.timerecorded=(select max(timerecorded) from samdb.analytics_physicalShelf t2 where shelf.fullName=t2.fullName)
-and port.fullName=$P{Port}]]>
+		<parameter name="compareIngress" class="java.lang.String">
+			<defaultValueExpression><![CDATA[$P{d_sr} >=1 && $P{d_sas} >=1?
+
+ "   "+   $P{srcTableIngressSR}   + "  \n    "+
+"      union   \n  " +
+ "   "+	 $P{srcTableIngressSAR}  + "   "
+ :
+ 
+
+ 
+ $P{d_sr} >=1 && $P{d_sas} ==0?
+ 
+  "   "+   $P{srcTableIngressSR}   + "   "
+  :
+  
+   $P{d_sr} ==0 && $P{d_sas} >=1?
+   
+ "   "+	 $P{srcTableIngressSAR}  + "   "
+ 
+  :
+ 
+"select '135.251' Nodename,'port1/1/1' as portname,'hybrid' as PortMode ,14 as queueid,'fc' as forwardingclass , 0 as ingressinprofilepktsdropped,0 as ingressinprofileoctetsdropped,0 as ingressoutofprofilepktsdropped,0 as ingressoutofprofileoctetsdropped    "+
+ ",0 as egressinprofilepktsdropped,0 as egressinprofileoctetsdropped,0 as egressoutofprofilepktsdropped,0 as egressoutofprofileoctetsdropped,0 as totalpktsdropped,0 as totaloctetsdropped from dual  "]]></defaultValueExpression>
+		</parameter>
+		<parameter name="percentile" class="java.lang.String" isForPrompting="false">
+			<defaultValueExpression><![CDATA[", IngresStats as ( "+ $P{compareIngress} +")    " +
+", EgresStats as ( "+ $P{compareegress} +")  "]]></defaultValueExpression>
+		</parameter>
+		<parameter name="decimalForm4dec" class="java.text.DecimalFormat">
+			<defaultValueExpression><![CDATA[new DecimalFormat("#.####")]]></defaultValueExpression>
+		</parameter>
+		<parameter name="decimalform2dec" class="java.text.DecimalFormat">
+			<defaultValueExpression><![CDATA[new DecimalFormat("#.##")]]></defaultValueExpression>
+		</parameter>
+		<parameter name="IS_IGNORE_PAGINATION" class="java.lang.Boolean"/>
+		<queryString>
+			<![CDATA[with SAP as (
+select * from 
+  ( 
+select * from 
+                        (select T1.portname,aaSubname,serviceName,svcComponentId,customerName,nodeId,actualSpeed,
+                        T1.fullName,ingressPolicyId	,ingressSchedulerName,egressSchedulerName,egressPolicyId,sasIngressPolicyId,sasEgressPolicyId,sapIngressCounterType, T1.displayedName as sapdisplayedName
+						from samdb.analytics_business_aa_sub T1 ,
+						( select displayedName, portName, siteId, fullname,NVL((actualSpeed),0) as actualSpeed from samdb.analytics_PhysicalPort T1
+                        where  displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+                        and T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_PhysicalPort T2 where T1.fullname=T2.fullname )
+                        union all
+                        select displayedName as displayedName, displayedName as portName, siteId, fullname,NVL((lagOperationalSpeed),0) as actualSpeed from samdb.analytics_lagInterface T1
+                        where  displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+                        and T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_lagInterface T2 where T1.fullname=T2.fullname )
+                        union all
+                        select a.displayedname, a.displayedname as portName,a.siteid, a.fullname,b.actualspeed from    (                                        
+ (select g1.fullname,   g1.displayedname, g1.siteid 
+ from         samdb.analytics_DS0ChannelGroup g1      
+ where  g1.timerecorded=(select max(timerecorded) from samdb.analytics_DS0ChannelGroup g2
+where g1.fullname =g2.fullname )
+and displayedName=$P{Port_Lag}  and siteId=$P{nodelist} 
+)a  
+inner join
+
+(select g1.fullname ,
+
+cast (BITCOUNT(HEX_TO_BINARY(TO_HEX(t1.timeSlotBits)))*125  as numeric(16,2)) actualSpeed
+from 
+samdb.analytics_DS0ChannelGroup g1 
+inner join samdb.analytics_DS0ChannelGroupSpecifies T1 on g1.siteid=t1.siteid 
+and g1.fullname =  replace(t1.fullname , ':ds0GrpSpecs','') 
+where  g1.timerecorded=(select max(timerecorded) from samdb.analytics_DS0ChannelGroup g2
+where g1.fullname =g2.fullname )
+and T1.timeRecorded=(Select MAX(T2.timeRecorded)
+						 from samdb.analytics_DS0ChannelGroupSpecifies T2 
+						 where T1.fullname=T2.fullname   )
+						
+)b	
+
+on a.fullname=b.fullname
+)
+
+						) port
+                         where  T1.portName=$P{Port_Lag}  and nodeId=$P{nodelist} and T1.aaSubType like '%access interface' 
+                         and T1.portName=port.displayedName and T1.nodeId=port.siteId
+                        
+						and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_business_aa_sub T2 
+						where T1.fullname=T2.fullname  and NOT(T2.actiontype=1 ) )  )
+                ) X
+                left join 
+                ( select  systemAddress,T3.displayedName as NodeName,
+							( case when (T3.displayedname like  '7750-SR%' or  T3.displayedname like  '7750 SR%'  or  T3.displayedname like  '7250%' or  T3.displayedname like  '7950%'   or  T3.displayedname like  '7450%' or T3.displayedname like 'VSR%') then 7750
+								when T3.displayedname like  '7705%' then 7705
+								when T3.displayedName like '7210%' then 7210
+								else chassisType end ) as chassisType
+ 
+						from samdb.analytics_network_element T1 JOIN samdb.auxDbEnumTable T3
+						on (T1.chassisType = T3.value)
+						
+						where T3.enumType='ShelfType' AND  systemAddress=$P{nodelist}   and
+							( T3.displayedname like  '7750-SR%'   or  T3.displayedname like  '7750 SR%' or    T3.displayedname like  '7250%' or T3.displayedname like  '7950%'   or  T3.displayedname like  '7450%' or T3.displayedname like 'VSR%'  -- sr variants
+								or T3.displayedname like  '7705%'  --sar    
+								or T3.displayedname like '7210%'	
+			
+							)			
+			
+						and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_network_element T2 where T1.fullname=T2.fullname) and NOT(actiontype=1 ) )
+                )Y
+                on X.nodeId=Y.systemAddress 
+)business_aa_sub
+
+left join
+
+ (
+  select  serviceType,serviceId,serviceFullName,customerID,svcManagerId from (
+          (select  serviceType,serviceId,id as svcManagerId,fullName as serviceFullName,customerName from samdb.analytics_service T1 
+            where  (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_service T2 where T1.fullname=T2.fullname) 
+            and NOT(actiontype=1 ) )
+          )C
+          left join
+          (
+           select  SUBSTRING(fullname,12) as customerID,fullname,subscriberName from samdb.analytics_customer T1 
+            where  (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_customer T2 
+                                          where T1.fullname=T2.fullname) 
+                                           and NOT(actiontype=1) )
+          )D
+          on C.customerName=D.subscriberName) x
+ ) servicedetails
+on business_aa_sub.svcComponentId=servicedetails.svcManagerId
+
+
+)
+,schParent as(
+select cir, pir, fullName, nextSchedulerName, displayedName, siteId,containingPolicyDisplayedName 
+ from samdb.analytics_Scheduler T1 where T1.timerecorded=(select max(T2.timerecorded) 
+ from samdb.analytics_scheduler T2 where T1.fullName=T2.fullName
+	 and  NOT(actiontype=1) 
+)
+and siteId!='0.0.0.0' and  siteId=$P{nodelist}  
+)
+
+, scheduler as  (
+    select a.l3fullName,a.l3displayedName, a.l3siteId, a.l3containingPolicyDisplayedName,
+             (case
+when a.l3cir=-1 and a.l2cir=-1 and tier1.l1cir=-1 then -1
+when a.l3cir=-1 and a.l2cir=-1 then tier1.l1cir
+when a.l3cir=-1 then a.l2cir
+else a.l3cir
+end ) as cir
+             , 
+(case
+when a.l3pir=-1 and a.l2pir=-1 and tier1.l1pir=-1 then -1
+when a.l3pir=-1 and a.l2pir=-1 then tier1.l1pir
+when a.l3pir=-1 then a.l2pir
+else a.l3pir
+end )
+as pir from
+(select *
+  from 
+(select cir as l3cir ,pir as l3pir,fullName  as l3fullName, nextSchedulerName as l3nextSchedulerName, displayedName as l3displayedName, siteId as l3siteId ,
+	containingPolicyDisplayedName as l3containingPolicyDisplayedName from schParent )child
+
+left outer join 
+(select cir as l2cir,pir as l2pir,fullName as l2fullName, nextSchedulerName as l2nextSchedulerName, displayedname as l2displayedName, siteId as l2siteId ,
+		containingPolicyDisplayedName as l2containingPolicyDisplayedName from schParent
+)parent
+
+on parent.l2displayedName=child.l3nextSchedulerName)a
+left join 
+
+(select cir as l1cir,pir as l1pir ,fullName as l1fullName, nextSchedulerName as l1nextSchedulerName, displayedname as l1displayedName, siteId as l1siteId,
+	containingPolicyDisplayedName as l1containingPolicyDisplayedName from schParent
+)tier1
+on tier1.l1displayedName=a.l2nextSchedulerName
+
+)
+
+
+,PolicyControl as (
+select 0 as cir,maxframeBasedBW as PIR , fullname,parentArbiter as nextSchedulerName, displayedName,siteId,containingPolicyDisplayedName ,timerecorded
+from samdb.analytics_policercontrolArbiter T1 where  T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_policercontrolArbiter T2 
+where T1.fullName=T2.fullName  
+ and NOT(actiontype=1) ) 
+and siteId!='0.0.0.0'  and  siteId=$P{nodelist} 
+)
+
+--select * from PolicyControl
+
+,PolicyControl_temp as (
+select a.l3fullName,a.l3displayedName, a.l3siteId, a.l3containingPolicyDisplayedName,
+(case
+ when a.l3cir=-1 and a.l3nextschedulerName like 'root' then -1
+ when a.l3cir=-1 and a.l2cir=-1  then -1
+ when a.l3cir=-1 then a.l2cir
+ else a.l3cir
+ end ) as cir,
+ (case
+ when a.l3pir=-1 and a.l3nextschedulerName like 'root' then -1
+ when a.l3pir=-1 and a.l2pir=-1  then -1
+ when a.l3pir=-1 then a.l2pir
+ else a.l3pir
+ end )
+ as pir from (
+select child.cir as l3cir, parent.cir as l2cir,
+ child.pir as l3pir, parent.pir as l2pir,
+ child.fullName as l3fullName, parent.fullName as l2fullName,
+ child.nextSchedulerName as l3nextSchedulerName, parent.nextSchedulerName as l2nextschedulerName,
+ child.displayedName as l3displayedName, parent.displayedName as l2displayedName,
+ child.siteId as l3siteId, parent.siteId as l2siteId,
+ child.containingPolicyDisplayedName as l3containingPolicyDisplayedName, parent.containingPolicyDisplayedName as l2containingPolicyDisplayedName
+  from
+PolicyControl child
+left outer join
+PolicyControl parent
+on parent.displayedName=child.nextSchedulerName and  child.siteId=parent.siteId ) a
+
+)
+
+--select * from PolicyControl_temp
+
+
+ 
+,IngressSapQueue as (
+
+with  queuesIngress as (
+     select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, queueSch.fullName, ingressPolicyId, queueId, policerId, meterId,direction,
+
+ ( case when rateType =3  and queueId >0  and schCIR is not null  then percentcir else coalesce(schCIR,override.cir, percentcir)  end )  as cir ,
+ ( case when rateType =3  and queueId >0  and schPIR is not null  then percentpir else coalesce(schPIR, override.pir, percentpir) end )  as pir,
+cirPercent,pirPercent,rateType,percentcir,percentpir,
+containingPolicyID, queueSch.displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed,ingressSchedulerName, egressSchedulerName
+from
+(select portname,queues.aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,queues.nodeId,queues.NodeName,queues.fullName,queues.queueFullName, queues.ingressPolicyId, queueId, policerId,meterId,direction,
+sch.cir as schCIR, sch.pir as schPIR, 
+pc.cir as pcCIR , pc.pir as pcPIR ,
+queues.cir as qCIR, queues.pir as qPIR,
+ cirPercent,pirPercent,rateType,  
+		( case when (rateType =1 or rateType =0) and queueId >0 then  queues.cir 
+		      when  rateType =2  and queueId >0 then (cirPercent/100 * actualSpeed)   --percent port limit 
+		      when  rateType =3  and queueId >0  and sch.cir is not null then (cirPercent/100 * sch.cir)  --percent local limit with scheduler 
+		      when  rateType =3  and queueId >0  and sch.cir is null then (cirPercent/100 * actualSpeed)  --percent local limit withoutdd scheduler 
+		      when  (rateType =1 or rateType =0)  and policerId>0 then queues.cir 
+		      when  rateType =2  and policerId>0 and pc.cir is not null then (cirPercent/100 * pc.cir)
+		      when  rateType =2  and policerId>0 and pc.cir is null then (cirPercent/100 * actualSpeed) 
+		       end ) percentcir, 
+		( case when (rateType =1 or rateType =0)  and queueId >0 then  queues.pir 
+		      when rateType =2   and queueId >0 then (pirPercent/100 * actualSpeed) 
+	      when rateType =3   and queueId >0  and sch.pir is not null then (pirPercent/100 * sch.pir) 
+		      when rateType =3   and queueId >0 and sch.pir is null then (pirPercent/100 * actualSpeed) 
+	      when (rateType =1 or rateType =0)   and policerId>0 then queues.pir 
+		      when rateType =2   and policerId>0 and pc.pir is not null then (pirPercent/100 * pc.pir) 
+	      when rateType =2   and policerId>0 and pc.pir is null then (pirPercent/100 * actualSpeed) 
+	       end ) percentpir, 
+queues.containingPolicyId,queues.displayedName,queues.siteId,queues.chassisType,queues.sapIngressCounterType, queues.scheduler,queues.actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from    (
+        select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,ingressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType ,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed ,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select  portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,ingressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7750,7705) ) Y 
+		inner join
+                
+                (select scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessQueue T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist} 
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessQueue T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.ingressPolicyId) 
+                )   
+              
+               union all
+                
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,ingressPolicyId,-1 as queueId,id as policerId,-1 as meterId,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,ingressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7750) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessPolicer T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessPolicer T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 )) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.ingressPolicyId) 
+                )  
+
+                union all
+        
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasIngressPolicyId,-1 as queueId,-1 as policerId,id as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType,scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasIngressPolicyId,chassisType,sapIngressCounterType,actualSpeed ,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7210) ) Y inner join
+                
+                (select  'N/A' as scheduler, id,cir,pir,0 as cirPercent,0 as pirPercent,0 as rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasMeter T1 
+                  where T1.direction=0 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasMeter T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasIngressPolicyId) 
+                )  
+                
+                union all
+                
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasIngressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,0 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasIngressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7210) ) Y inner join
+                
+                (select  'N/A' as scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasAccessQueue T1 
+                  where T1.policyLevel=0 and T1.direction=0 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+		   			and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasAccessQueue T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasIngressPolicyId) 
+                )
+                
+
+                
+             )queues
+             
+             
+             left join 
+             
+             (
+             
+         select * from scheduler )sch
+             
+             on queues.scheduler=sch.l3displayedName
+             and queues.siteId=sch.l3siteId
+             and queues.ingressSchedulerName=sch.l3containingPolicyDisplayedName
+	         left join PolicyControl_temp pc  
+               on queues.scheduler=pc.l3displayedName 
+            and queues.siteId=pc.l3siteId      
+ ) queueSch
+             left join 
+             (
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyQueuePointer  as queuePointer, parentName from samdb.analytics_ingressQueueOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_ingressQueueOverride T2 
+where T1.fullName=T2.fullName  and NOT(actiontype=1)  )
+
+union
+select  fullName, 'N/A' as displayedName, siteId, cir, pir, policerPointer as queuePointer, parentName from samdb.analytics_ingressPolicerOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_ingressPolicerOverride T2 
+where T1.fullName=T2.fullName  and NOT(actiontype=1) )
+union 
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyMeterPointer as queuePointer , parentName from samdb.analytics_IngressMeterOverride T1
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_IngressMeterOverride T2 where T1.fullName=T2.fullName  and NOT(actiontype=1) ) 
+
+
+             )override
+             on (override.queuePointer=queueSch.queueFullName  and queueSch.sapDisplayedName = override.parentName)
+                
+        )
+        
+ --select * from   queuesingress    
+
+
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, fullName, ingressPolicyId, queueId, policerId, meterId,direction,
+  (case when cir=-2 then 0
+        else cir
+        end)
+        as cir,
+        (case when pir=-1 then actualSpeed
+        else pir
+        end)
+        as pir,
+containingPolicyID, displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed
+      
+       
+        from queuesingress  
+)
+
+
+
+--select * from IngressSapQueue
+
+,EgressSapQueue as (
+
+with  queuesEgress as (
+        
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, queueSch.fullName, egressPolicyId, queueId, policerId, meterId,direction,
+--schCIR,override.cir, qcir,
+--schPIR, override.pir, qpir,
+ ( case when rateType =3  and queueId >0  and schCIR is not null  then percentcir else coalesce(schCIR,override.cir, percentcir)  end ) as cir ,
+ ( case when rateType =3  and queueId >0  and schPIR is not null  then percentpir else coalesce(schPIR, override.pir, percentpir) end ) as pir,
+
+cirPercent,pirPercent,rateType,percentcir,percentpir,
+containingPolicyID, queueSch.displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed ,ingressSchedulerName, egressSchedulerName
+from
+(select portname,queues.aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,queues.nodeId,queues.NodeName,queues.fullName,queues.queueFullName, queues.egressPolicyId, queueId, policerId,meterId,direction,
+sch.cir as schCIR, sch.pir as schPIR, 
+pc.cir as pcCIR , pc.pir as pcPIR ,
+queues.cir as qCIR, queues.pir as qPIR,
+ cirPercent,pirPercent,rateType,  
+		( case when (rateType =1 or rateType =0) and queueId >0 then  queues.cir 
+		      when  rateType =2  and queueId >0 then (cirPercent/100 * actualSpeed)   --percent port limit 
+		      when  rateType =3  and queueId >0  and sch.cir is not null then (cirPercent/100 * sch.cir)  --percent local limit with scheduler 
+		      when  rateType =3  and queueId >0  and sch.cir is null then (cirPercent/100 * actualSpeed)  --percent local limit withoutdd scheduler 
+		      when  (rateType =1 or rateType =0)  and policerId>0 then queues.cir 
+		      when  rateType =2  and policerId>0 and pc.cir is not null then (cirPercent/100 * pc.cir)
+		      when  rateType =2  and policerId>0 and pc.cir is null then (cirPercent/100 * actualSpeed) 
+		       end ) percentcir, 
+		( case when (rateType =1 or rateType =0)  and queueId >0 then  queues.pir 
+		      when rateType =2   and queueId >0 then (pirPercent/100 * actualSpeed) 
+	      when rateType =3   and queueId >0  and sch.pir is not null then (pirPercent/100 * sch.pir) 
+		      when rateType =3   and queueId >0 and sch.pir is null then (pirPercent/100 * actualSpeed) 
+	      when (rateType =1 or rateType =0)   and policerId>0 then queues.pir 
+		      when rateType =2   and policerId>0 and pc.pir is not null then (pirPercent/100 * pc.pir) 
+	      when rateType =2   and policerId>0 and pc.pir is null then (pirPercent/100 * actualSpeed) 
+	       end ) percentpir, 
+queues.containingPolicyId,queues.displayedName,queues.siteId,queues.chassisType,queues.sapIngressCounterType, queues.scheduler,queues.actualSpeed ,ingressSchedulerName, egressSchedulerName,sapDisplayedName from 
+        (
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,egressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName ,1 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName, fullName,egressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName from SAP where chassisType in (7750,7705) ) Y inner join
+                
+                (select scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessQueue T1 
+                  where T1.direction=1 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessQueue T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.egressPolicyId) 
+                )  
+                
+
+                UNION ALL
+
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,egressPolicyId,-1 as queueId,id as policerId,-1 as meterId,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName ,1 as direction,siteId,chassisType,sapIngressCounterType, scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName, fullName,egressPolicyId,chassisType,sapIngressCounterType ,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7750) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,adminCir,adminPir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_accessPolicer T1 
+                  where T1.direction=1 and T1.siteId !='0.0.0.0' and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_accessPolicer T2 where T1.fullname=T2.fullname and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.egressPolicyId) 
+                )   
+                               
+                
+                UNION ALL
+      --SAS and IXR          
+                select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,Y.fullName,X.FullName as queueFullName,sasEgressPolicyId,id as queueId,-1 as policerId,-1 as meterId,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,1 as direction,siteId,chassisType,sapIngressCounterType , scheduler,actualSpeed,ingressSchedulerName, egressSchedulerName,sapDisplayedName  from (
+                ( select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID,nodeId,NodeName,fullName,sasEgressPolicyId,chassisType,sapIngressCounterType,actualSpeed,ingressSchedulerName, egressSchedulerName, sapdisplayedName as sapDisplayedName  from SAP where chassisType in (7210) ) Y inner join
+                
+                (select 'N/A' as scheduler, id,cir,pir,cirPercent,pirPercent,rateType,containingPolicyId,displayedName,siteId,fullName,direction from samdb.analytics_sasAccessQueue T1 
+                  where T1.policyLevel=0 and T1.direction=1 and T1.siteId !='0.0.0.0'  and T1.siteId=$P{nodelist}
+                                                                                and (T1.timeRecorded=(Select MAX(T2.timeRecorded) from samdb.analytics_sasAccessQueue T2 where T1.fullname=T2.fullname  and NOT(actiontype=1 ) ) ) )X 
+                 on ( X.siteId=Y.nodeId and X.containingPolicyId=Y.sasEgressPolicyId) 
+                )  
+                
+             )queues
+             
+        
+             
+             
+             left join 
+             
+             (
+             
+              select * from scheduler  ) sch
+             
+             on queues.scheduler=sch.l3displayedName
+             and queues.siteId=sch.l3siteId
+              and queues.egressSchedulerName=sch.l3containingPolicyDisplayedName 
+	       left join PolicyControl_temp pc  
+               on queues.scheduler=pc.l3displayedName 
+            and queues.siteId=pc.l3siteId ) queueSch
+             left join 
+             (
+select fullName, 'N/A' as displayedName, siteId, cir, pir, accessPolicyQueuePointer  as queuePointer,parentName from samdb.analytics_EgressQueueOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_EgressQueueOverride T2 where T1.fullName=T2.fullName and NOT(actiontype=1) )
+
+union
+select  fullName, 'N/A' as displayedName, siteId, cir, pir, policerPointer as queuePointer,parentName from samdb.analytics_EgressPolicerOverride T1 
+where siteId=$P{nodelist} and T1.timerecorded=(select max(T2.timerecorded) from samdb.analytics_EgressPolicerOverride T2 where T1.fullName=T2.fullName  and NOT(actiontype=1)  )
+
+
+             )override
+             on (override.queuePointer=queueSch.queueFullName  and queueSch.sapDisplayedName = override.parentName)
+                
+        )
+        
+--select * from   queuesEgress    
+
+
+
+select portname,aaSubname,serviceName,serviceId,serviceType,serviceFullName,customerName,customerID, nodeId, NodeName, fullName, egressPolicyId, queueId, policerId, meterId,direction,
+  (case when cir=-2 then 0
+        else cir
+        end)
+        as cir,
+        (case when pir=-1 then actualSpeed
+        else pir
+        end)
+        as pir,
+containingPolicyID, displayedName,chassisType, sapIngressCounterType, scheduler, actualSpeed
+      
+       
+        from queuesEgress  
+)
+
+
+--select * from EgressSapQueue
+       
+
+,IngresStats as (  $P!{compareIngress} )  
+
+ ,EgresStats as (  $P!{compareegress} ) 
+
+ , customerIngress as ( select  PortName,serviceName,customerName,customerID,serviceId,serviceType,serviceFullName,  SUM(case when cir<0 then 0 else cir end) as ingressCir ,  SUM(case when pir<0 then 0 else pir end) as ingressPir, 
+ SUM(( case when (chassisType=7750 and Isq.queueId >0 ) then inProfTpt+outProfTpt 
+ when ( chassisType=7750 and Isq.policerId>0 and statmode='minimal' ) then  allOctTpt 
+ when ( chassisType=7750 and Isq.policerId>0 and statmode is not null and statmode !='offered-priority-no-cir' and statmode !='') then  inProfTpt+outProfTpt 
+   when ( chassisType=7250 and Isq.policerId>0  ) then inProfTpt+outProfTpt 
+  when ( chassisType=7705 ) then inProfTpt+outProfTpt 
+  when (NodeName like '%SAS-K%'  and Isq.queueId> 0) then inProfTpt+outProfTpt 
+ when (chassisType=7210 and  sapIngressCounterType = 2 ) then octetsTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId = -1 and Isq.meterId = -1 ) then inProfTpt+outProfTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId> 0 and Isq.meterId = -1 ) then octetsTpt 
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId= -1 and Isq.meterId > 0 ) then  inProfTpt+outProfTpt   
+when (chassisType=7210 and  sapIngressCounterType = 1 and Isq.queueId> 0 and Isq.meterId > 0 ) then  octetsTpt  
+when (chassisType=7210 and  sapIngressCounterType =-1 and Isq.queueId> 0  ) then  inProfTpt+outProfTpt  	
+else 0 end )) as ingressActualTpt
+   from IngressSapQueue Isq LEFT JOIN IngresStats Ist  on (Isq.fullName=Ist.monitoredObjectPointer and (Isq.queueId=Ist.queueId and  Isq.meterId=Ist.meterId and Isq.policerId=Ist.policerId) ) 
+ group by portname,customerID,customerName,serviceFullName,serviceId,serviceName,serviceType  )
+ 
+ ,customerEgress as (   select portname, serviceName,customerName,customerID, serviceId,serviceType,serviceFullName,  SUM(case when cir<0 then 0 else cir end) as egressCir, 
+  SUM(case when pir<0 then 0 else pir end) as egressPir, 
+   SUM(( case when (chassisType=7750 and Esq.queueId >0 ) then inProfTpt+outProfTpt 
+   when ( chassisType=7750 and Esq.policerId>0 and statmode='minimal' ) then allOctTpt 
+   when ( chassisType=7750 and Esq.policerId>0 and statmode is not null and statmode !='') then inProfTpt+outProfTpt 
+   when ( chassisType=7705 ) then inProfTpt+outProfTpt 
+   when (NodeName like '%SAS-K%' and Esq.queueId >0) then  inProfTpt+outProfTpt 
+  when (chassisType in (7210) ) then octetsTpt  end )) as egressActualTpt    
+   from EgressSapQueue Esq LEFT JOIN EgresStats Est on (Esq.fullName=Est.monitoredObjectPointer  and (Esq.queueId=Est.queueId and  Esq.meterId=Est.meterId and  Esq.policerId=Est.policerId) )
+ group by portname,customerID,customerName,serviceFullName,serviceId,serviceName,serviceType ) 
+	
+select PortName ,ServiceName,CustomerName,CustomerID,ServiceId,ServiceType,OAMServicetype,ServiceFullName,IngressCir,IngressPir,IngressActualTpt,EgressCir,EgressPir,EgressActualTpt,IngressUtilization,EgressUtilization,-1 as IngCustActualTpt,-1 as EgrCustActualTpt,( case when ingressUtilization>=egressUtilization then ingressUtilization else egressUtilization end ) as worstUtilization from
+ (	
+ 	select  	
+
+	NVL(customerIngress.portname,customerEgress.portname) portname,
+	NVL(customerIngress.serviceName,customerEgress.serviceName) serviceName,			
+	NVL(customerIngress.customerName,customerEgress.customerName)	customerName,		
+	NVL(customerIngress.customerID,customerEgress.customerID) customerID,			
+	NVL(customerIngress.serviceId,customerEgress.serviceId) serviceId,						
+	NVL(customerIngress.serviceType,customerEgress.serviceType) serviceType,	
+	  (case when  (upper(customerIngress.serviceType) like '%EPIPE%' or upper(customerEgress.serviceType) like '%EPIPE%' ) then 1 
+             when  (upper(customerIngress.serviceType) like '%VPLS%' or upper(customerEgress.serviceType) like  '%VPLS%' ) then 3
+             when  (upper(customerIngress.serviceType) like '%VPRN%' or upper(customerEgress.serviceType) like  '%VPRN%' )   then 4
+              when  (upper(customerIngress.serviceType) like '%CPIPE%' or upper(customerEgress.serviceType) like  '%CPIPE%' )   then 12
+             when  (upper(customerIngress.serviceType) like '%MVPLS%' or upper(customerEgress.serviceType) like  '%MVPLS%' )   then 103 else 0 end ) as OAMServicetype,		
+	NVL(customerIngress.serviceFullName,customerEgress.serviceFullName) serviceFullName,		
+
+	NVL(customerIngress.ingressCir,	0) ingressCir,		
+	NVL(customerIngress.ingressPir,	0) ingressPir,		
+	NVl(customerIngress.ingressActualTpt,0) as ingressActualTpt,			
+	NVl(customerEgress.egressCir,0) egressCir,			
+	NVl(customerEgress.egressPir,0) egressPir,			
+	NVl(customerEgress.egressActualTpt,0) as egressActualTpt,			
+	CAST( (case when (customerIngress.ingressPir<=0 or customerIngress.ingressActualTpt=0 or customerIngress.ingressActualTpt is null) then 0  else round(((customerIngress.ingressActualTpt/customerIngress.ingressPir)*100),2) end) as numeric(16,2)) as ingressUtilization,			
+	CAST( (case when (customerEgress.egressPir<=0 or customerEgress.egressActualTpt=0 or customerEgress.egressActualTpt is null) then 0  else round(((customerEgress.egressActualTpt/customerEgress.egressPir)*100),2) end) as numeric(16,2)) as egressUtilization 		
+
+	from customerIngress full join customerEgress	
+	on (customerIngress.serviceFullName=customerEgress.serviceFullName and customerIngress.customerID=customerEgress.customerID)
+) Final
+	 order by customerName asc,worstUtilization desc]]>
 		</queryString>
-		<field name="displayedName" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="displayedName"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellularImei" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="cellularImei"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortWirelessTechnology" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortWirelessTechnology"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortRssi" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortRssi"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortRsrp" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortRsrp"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortRscp" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortRscp"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortRsrq" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortRsrq"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortSinr" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortSinr"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortFrequencyBand" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortFrequencyBand"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortChanNum" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortChanNum"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortCellIdentity" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortCellIdentity"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortAreaCode" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortAreaCode"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="cellPortBand125MaxPowerLevel" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortBand125MaxPowerLevel"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
-		<field name="manufacturerBoardNumber" class="java.lang.String">
-			<property name="com.jaspersoft.studio.field.label" value="manufacturerBoardNumber"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_physicalshelf"/>
-		</field>
-		<field name="cellPortRegistrationStatus" class="java.lang.Long">
-			<property name="com.jaspersoft.studio.field.label" value="cellPortRegistrationStatus"/>
-			<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-		</field>
+		<field name="PortName" class="java.lang.String"/>
+		<field name="ServiceName" class="java.lang.String"/>
+		<field name="CustomerName" class="java.lang.String"/>
+		<field name="CustomerID" class="java.lang.String"/>
+		<field name="ServiceId" class="java.lang.Long"/>
+		<field name="ServiceType" class="java.lang.String"/>
+		<field name="OAMServicetype" class="java.lang.Long"/>
+		<field name="ServiceFullName" class="java.lang.String"/>
+		<field name="IngressCir" class="java.lang.Long"/>
+		<field name="IngressPir" class="java.lang.Long"/>
+		<field name="IngressActualTpt" class="java.math.BigDecimal"/>
+		<field name="EgressCir" class="java.lang.Long"/>
+		<field name="EgressPir" class="java.lang.Long"/>
+		<field name="EgressActualTpt" class="java.math.BigDecimal"/>
+		<field name="IngressUtilization" class="java.math.BigDecimal"/>
+		<field name="EgressUtilization" class="java.math.BigDecimal"/>
+		<field name="IngCustActualTpt" class="java.lang.Long"/>
+		<field name="EgrCustActualTpt" class="java.lang.Long"/>
+		<field name="worstUtilization" class="java.math.BigDecimal"/>
 	</subDataset>
 	<scriptlet name="AnalyticsUDFs" class="com.nokia.nsp.analytics.report.AnalyticsUDFs">
 		<scriptletDescription><![CDATA[]]></scriptletDescription>
 	</scriptlet>
 	<parameter name="endTime" class="net.sf.jasperreports.types.date.TimestampRange">
-		<defaultValueExpression><![CDATA[new net.sf.jasperreports.types.date.DateRangeBuilder("DAY").set(java.sql.Timestamp.class).toDateRange()]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[new net.sf.jasperreports.types.date.DateRangeBuilder("DAY").set($P{REPORT_TIME_ZONE}).set(java.sql.Timestamp.class).toDateRange()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="imgParam" class="java.lang.String">
 		<defaultValueExpression><![CDATA["default (Nokia)"]]></defaultValueExpression>
@@ -187,18 +781,32 @@ and port.fullName=$P{Port}]]>
 		<parameterDescription><![CDATA[]]></parameterDescription>
 		<defaultValueExpression><![CDATA["8 hours"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Node_Name_Pattern" class="java.lang.String">
-		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
-	</parameter>
-	<parameter name="Node" class="java.lang.String"/>
-	<parameter name="portStatus" class="java.lang.Integer">
-		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
-	</parameter>
-	<parameter name="portNamePattern" class="java.lang.String">
+	<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
 		<parameterDescription><![CDATA[]]></parameterDescription>
-		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.adjustEndTime($P{endTime}.getEnd().getTime(), System.currentTimeMillis(), $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
 	</parameter>
-	<parameter name="Port" class="java.lang.String"/>
+	<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.calTs($P{EndDateQuery}, $P{timePeriod}, $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
+	</parameter>
+	<parameter name="periodicTimeGranularity" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
+3600 :
+$P{granularity}==1 ?
+0 :
+$P{granularity}==3 ?
+86400 :
+2592000]]></defaultValueExpression>
+	</parameter>
+	<parameter name="granularityStr" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[($P{granularity}==5)?
+"Monthly":
+($P{granularity}==3) ?
+"Daily":
+($P{granularity}==2) ?
+"Hourly":
+"Raw Collection Interval"]]></defaultValueExpression>
+	</parameter>
 	<parameter name="startDateFomat" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
 "yyyy-MM-dd HH:00 z":
@@ -217,141 +825,213 @@ $P{granularity}==5 ?
  "yyyy-MM z":
  "yyyy-MM-dd HH:mm:ss z"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="EndDateQuery" class="java.lang.Long" isForPrompting="false">
-		<parameterDescription><![CDATA[]]></parameterDescription>
-		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.adjustEndTime($P{endTime}.getEnd().getTime(), System.currentTimeMillis(), $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
-	</parameter>
-	<parameter name="StartDateQuery" class="java.lang.Long" isForPrompting="false">
-		<defaultValueExpression><![CDATA[$P{AnalyticsUDFs_SCRIPTLET}.calTs($P{EndDateQuery}, $P{timePeriod}, $P{granularity},$P{REPORT_TIME_ZONE})]]></defaultValueExpression>
-	</parameter>
-	<parameter name="granularityString" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA[($P{granularity}==5)?
-"Monthly":
-($P{granularity}==3) ?
-"Daily":
-($P{granularity}==2) ?
-"Hourly":
-"Raw Collection Interval"]]></defaultValueExpression>
-	</parameter>
 	<parameter name="nodeType" class="java.lang.String"/>
-	<parameter name="srcTable" class="java.lang.String" isForPrompting="false">
+	<parameter name="nodeNamePattern" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nodelist" class="java.lang.String"/>
+	<parameter name="Port_NamePattern" class="java.lang.String">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="Port_Lag" class="java.lang.String"/>
+	<parameter name="Display_Service_Full_Name" class="java.lang.Boolean">
+		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
+	</parameter>
+	<parameter name="srcTableIngressSR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
-"samdb.Cellularequipment_CellularPortStatsLogRecord_hour" :
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded / "+$P{periodicTimeGranularity}+") )*8)/1000  as inProfTpt, (( sum(outOfProfileOctetsForwarded / "+$P{periodicTimeGranularity}+" ) )*8)/1000 as outProfTpt, (( sum(allOctetsForwarded / "+$P{periodicTimeGranularity}+" ))*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.Service_CompleteServiceIngressPacketOctetsLogRecord_hour where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "
+:
 $P{granularity}==1 ?
-"samdb.cellularequipment_CellularPortStatsLogRecord" :
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt , (sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt, (sum((allOctetsForwarded/periodicTime)*8)) as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceIngressPacketOctets_PERIODIC where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and periodicTime!=0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode " 
+: 
 $P{granularity}==3 ?
-"samdb.Cellularequipment_CellularPortStatsLogRecord_day" :
-"samdb.Cellularequipment_CellularPortStatsLogRecord_month"]]></defaultValueExpression>
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded /"+$P{periodicTimeGranularity}+" ) )*8)/1000  as inProfTpt, (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt, (( sum(allOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceIngressPacketOctetsLogRecord_day where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "
+:
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000  as inProfTpt, (( sum(outOfProfileOctetsForwarded/ "+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt, (( sum(allOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceIngressPacketOctetsLogRecord_month where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "]]></defaultValueExpression>
 	</parameter>
-	<parameter name="detailsQuery" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["select  cell.displayedName as portname,x.siteId as siteId ,x.siteName as siteName "+
-"from samdb.analytics_PhysicalPort x "+
-"inner join samdb.analytics_cellularportspecific cell on x.fullName=substr(cell.fullName,1 ,(instr(cell.fullName , ':cell', 1,1)-1)) "+
-"where x.timeRecorded=(select max(timeRecorded) "+
-"from samdb.analytics_PhysicalPort y where x.fullName=y.fullName) "+
-"and cell.timeRecorded=(select max(timerecorded) from samdb.analytics_cellularportspecific t2 "+
-"where cell.fullname=t2.fullName) "+
-"and x.fullName='" +$P{Port} + "' "]]></defaultValueExpression>
+	<parameter name="srcTableIngressSAR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+"(case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode, \n"+
+"(( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+" ) )*8)/1000 as inProfTpt, \n"+
+"(( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt, \n"+
+"0 as allOctTpt, 0 as egreOctTpt, \n"+
+"(( sum(octetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as octetsTpt \n"+
+"from samdb.Service_ServiceIngressOctetsLogRecord_hour where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and (queueId > 0 or meterId >0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId "
+
+:
+
+$P{granularity}==1 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+"(case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode, \n"+
+"(sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt , \n"+
+"(sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt, \n"+
+"0 as allOctTpt,  0 as egreOctTpt, \n"+
+"(sum((octetsForwarded/periodicTime)*8)) as octetsTpt \n"+
+"from samdb.service_ServiceIngressOctets_PERIODIC where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and (queueId > 0 or meterId >0) and periodicTime!=0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId "
+
+:
+ 
+$P{granularity}==3 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+"(case when meterId=0 then -1 else meterId end) meterId,  'dum' as statmode, \n"+
+"(( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as inProfTpt, \n"+
+"(( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt, \n"+
+" 0 as allOctTpt, 0 as egreOctTpt, \n"+
+"(( sum(octetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as octetsTpt \n"+
+" from samdb.service_ServiceIngressOctetsLogRecord_day where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and (queueId > 0 or meterId >0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId" 
+
+:
+ 
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+" (case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode, \n"+
+"(( sum(inProfileOctetsForwarded /"+$P{periodicTimeGranularity}+"))*8)/1000 as inProfTpt, \n"+
+"(( sum(outOfProfileOctetsForwarded /"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt,\n"+
+" 0 as allOctTpt,  0 as egreOctTpt, \n"+
+"(( sum(octetsForwarded /"+$P{periodicTimeGranularity}+") )*8)/1000 as octetsTpt \n"+
+"from samdb.service_ServiceIngressOctetsLogRecord_month where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and (queueId > 0 or meterId >0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="temperatureUnit" class="java.lang.String">
-		<defaultValueExpression><![CDATA["C"]]></defaultValueExpression>
+	<parameter name="srcTableEgressSR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as inProfTpt, (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+"))*8)/1000 as outProfTpt, (( sum(allOctetsForwarded/"+$P{periodicTimeGranularity}+"))*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.Service_CompleteServiceEgressPacketOctetsLogRecord_hour where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "
+:
+$P{granularity}==1 ?
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt , (sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt, (sum((allOctetsForwarded/periodicTime)*8) ) as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceEgressPacketOctets_PERIODIC where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and periodicTime!=0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "
+: 
+$P{granularity}==3 ?
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as inProfTpt, (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt, (( sum(allOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceEgressPacketOctetsLogRecord_day where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "
+:
+" select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as inProfTpt, (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+"))*8)/1000 as outProfTpt, (( sum(allOctetsForwarded/"+$P{periodicTimeGranularity}+"))*8)/1000  as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceEgressPacketOctetsLogRecord_month where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,policerId,statmode "]]></defaultValueExpression>
 	</parameter>
-	<queryString language="SQL">
-		<![CDATA[Select distinct t1.displayedName as portName,cellularImei,cellPortWirelessTechnology,cellPortRssi,cellPortRsrp,cellPortRscp,cellPortRsrq,cellPortSinr,cellPortFrequencyBand,cellPortChanNum,cellPortCellIdentity,cellPortAreaCode
-,cellPortBand125MaxPowerLevel, shelf.manufacturerBoardNumber ,port.siteId as siteId ,port.siteName as siteName,
-cellPortRegistrationStatus
-from samdb.analytics_cellularportspecific t1
-inner join samdb.analytics_PhysicalPort port on port.fullName=substr(t1.fullName,1 ,(instr(t1.fullName , ':cell', 1,1)-1))
-inner join samdb.analytics_physicalShelf shelf on (shelf.shelfId=port.shelfId and shelf.siteId=port.siteId)
-where t1.timerecorded=(select max(timerecorded) from samdb.analytics_cellularportspecific t2 where t1.fullName=t2.fullName)
-and port.timerecorded=(select max(timerecorded) from samdb.analytics_PhysicalPort t2 where port.fullName=t2.fullName)
-and shelf.timerecorded=(select max(timerecorded) from samdb.analytics_physicalShelf t2 where shelf.fullName=t2.fullName)
-and port.fullName=$P{Port}]]>
+	<parameter name="srcTableEgressSAR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[$P{granularity}==2 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId,\n"+
+"(case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode,  \n"+
+" (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+" ) )*8)/1000 as inProfTpt ,   \n"+
+"  (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt , 0 as allOctTpt, \n"+ 
+"(( sum(egressoctetsforwarded/"+$P{periodicTimeGranularity}+"))*8)/1000 as egreOctTpt, \n"+
+"(( sum(octetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as octetsTpt \n"+
+"from samdb.Service_ServiceEgressOctetsLogRecord_hour where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and queueId >0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId "
+:
+$P{granularity}==1 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+" (case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode,   \n"+
+"  (sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt ,   \n"+
+" (sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt,    \n "+
+" 0 as allOctTpt, \n"+
+"(sum((egressoctetsforwarded/periodicTime)*8)) as egreOctTpt,  \n"+
+"(sum((octetsForwarded/periodicTime)*8)) as octetsTpt \n"+
+"from samdb.service_ServiceEgressOctets_PERIODIC where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210))  and queueId >0 and periodicTime!=0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId " 
+: 
+$P{granularity}==3 ?
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+" (case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode,  \n"+
+" (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+" ) )*8)/1000 as inProfTpt ,   \n"+
+"  (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt , 0 as allOctTpt, \n"+ 
+" (( sum(egressoctetsforwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as egreOctTpt, \n"+
+" (( sum(octetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as octetsTpt \n"+
+" from samdb.service_ServiceEgressOctetsLogRecord_day where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and queueId >0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId " 
+:
+" select monitoredObjectPointer,(case when queueId=0 then -1 else queueId end) queueId,-1 as policerId, \n"+
+" (case when meterId=0 then -1 else meterId end) meterId, 'dum' as statmode, \n"+
+" (( sum(inProfileOctetsForwarded/"+$P{periodicTimeGranularity}+" ) )*8)/1000 as inProfTpt ,   \n"+
+"  (( sum(outOfProfileOctetsForwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as outProfTpt , 0 as allOctTpt, \n"+  
+" (( sum(egressoctetsforwarded/"+$P{periodicTimeGranularity}+") )*8)/1000 as egreOctTpt, \n"+
+" (( sum(octetsForwarded/"+$P{periodicTimeGranularity}+"))*8)/1000 as octetsTpt \n"+
+" from samdb.service_ServiceEgressOctetsLogRecord_month where monitoredObjectPointer in \n"+
+"(select fullName from SAP where chassisType in(7210)) and queueId >0 and timerecorded >=" + $P{StartDateQuery} + " and timerecorded <= " + $P{EndDateQuery}+ " group by monitoredObjectPointer,queueId,meterId "]]></defaultValueExpression>
+	</parameter>
+	<parameter name="percentile" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[", IngresStats as ( "+ $P{srcTableIngressSR} +" union      "+ $P{srcTableIngressSAR} +")  " +
+", EgresStats as ( "+ $P{srcTableEgressSR} +"   union "+ $P{srcTableEgressSAR} +")  "]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select distinct app.description,app.displayedName,siteName  ,sub.portname  as port,nodeId,
+ case when mode =0 then 'Undefined'
+when mode=1 then 'Access'
+when mode=2 then 'Network'
+when mode=3 then 'Hybrid'
+else 'Unspecified'
+end portMode
+from samdb.analytics_PhysicalPort app , samdb.analytics_business_aa_sub  sub
+where app.displayedName=sub.portname and sub.nodeid=app.siteid
+and app.timeRecorded =(select max(timeRecorded) from samdb.analytics_PhysicalPort app1 where app.fullName=app1.fullName)
+and sub.timeRecorded=(Select MAX(sub1.timeRecorded) from samdb.analytics_business_aa_sub sub1 
+						where sub.fullname=sub1.fullname)    and Nodeid=$P{nodelist} and app.displayedName=$P{Port_Lag}
+union all
+select distinct app.description,app.displayedName,siteName  ,sub.portname  as port,nodeId,
+ case when mode =0 then 'Undefined'
+when mode=1 then 'Access'
+when mode=2 then 'Network'
+when mode=3 then 'Hybrid'
+else 'Unspecified'
+end portMode
+from samdb.analytics_laginterface app , samdb.analytics_business_aa_sub  sub
+where app.displayedName=sub.portname and sub.nodeid=app.siteid
+and app.timeRecorded =(select max(timeRecorded) from samdb.analytics_laginterface app1 where app.fullName=app1.fullName)
+and sub.timeRecorded=(Select MAX(sub1.timeRecorded) from samdb.analytics_business_aa_sub sub1 
+						where sub.fullname=sub1.fullname)    and Nodeid=$P{nodelist}  and app.displayedName=$P{Port_Lag}
+						
+												union all
+												select distinct app.displayedName description,app.displayedName,app.siteName  ,sub.portname  as port,nodeId,
+ case when mode =0 then 'Undefined'
+when mode=1 then 'Access'
+when mode=2 then 'Network'
+when mode=3 then 'Hybrid'
+else 'Unspecified'
+end portMode
+from samdb.analytics_DS0ChannelGroup app 
+join samdb.analytics_business_aa_sub  sub on app.displayedName=sub.portname and sub.nodeid=app.siteid
+join samdb.analytics_physicalport port on port.portname=substr(app.portname, 1 ,instr(app.portname,'.',1)-1) and app.siteid=port.siteid
+where 
+port.timerecorded=(select max(timeRecorded) from samdb.analytics_physicalport app1 where port.fullName=app1.fullName)
+and app.timeRecorded =(select max(timeRecorded) from samdb.analytics_DS0ChannelGroup app1 where app.fullName=app1.fullName)
+and sub.timeRecorded=(Select MAX(sub1.timeRecorded) from samdb.analytics_business_aa_sub sub1 
+where sub.fullname=sub1.fullname)  
+    and Nodeid=$P{nodelist} and app.displayedName=$P{Port_Lag}]]>
 	</queryString>
-	<field name="portName" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="portname"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellularImei" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="cellularImei"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortWirelessTechnology" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortWirelessTechnology"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortRssi" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortRssi"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortRsrp" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortRsrp"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortRscp" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortRscp"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortRsrq" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortRsrq"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortSinr" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortSinr"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortFrequencyBand" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortFrequencyBand"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortChanNum" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortChanNum"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortCellIdentity" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortCellIdentity"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortAreaCode" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortAreaCode"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="cellPortBand125MaxPowerLevel" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortBand125MaxPowerLevel"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<field name="manufacturerBoardNumber" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="manufacturerBoardNumber"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_physicalshelf"/>
-	</field>
-	<field name="siteId" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="siteId"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_PhysicalPort"/>
-	</field>
-	<field name="siteName" class="java.lang.String">
-		<property name="com.jaspersoft.studio.field.label" value="siteName"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_PhysicalPort"/>
-	</field>
-	<field name="cellPortRegistrationStatus" class="java.lang.Long">
-		<property name="com.jaspersoft.studio.field.label" value="cellPortRegistrationStatus"/>
-		<property name="com.jaspersoft.studio.field.tree.path" value="analytics_cellularportspecific"/>
-	</field>
-	<variable name="m_man" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="displayedName" class="java.lang.String"/>
+	<field name="siteName" class="java.lang.String"/>
+	<field name="port" class="java.lang.String"/>
+	<field name="nodeId" class="java.lang.String"/>
+	<field name="portMode" class="java.lang.String"/>
+	<variable name="main_sr" class="java.lang.Long"/>
+	<variable name="main_sas" class="java.lang.Long"/>
+	<variable name="main_sap" class="java.util.Collection"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="170" splitType="Stretch">
+		<band height="140" splitType="Stretch">
 			<staticText>
-				<reportElement x="360" y="10" width="400" height="30" uuid="c64782f4-33c9-4c53-9db8-a9b8954cc8a8"/>
+				<reportElement x="308" y="20" width="349" height="31" uuid="5dca41e2-3663-4eb7-bd5e-3ec43fd5456c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
+					<font size="16" isBold="true" isUnderline="false"/>
 				</textElement>
-				<text><![CDATA[Signaling Trend Analysis]]></text>
+				<text><![CDATA[Service Utilization per Port Details]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="82" y="90" width="150" height="20" isRemoveLineWhenBlank="true" uuid="81054ad2-3a86-4c71-baea-27f5b7ad8031">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<reportElement x="477" y="70" width="205" height="20" uuid="3f8af9c8-9ed1-4ab5-af28-eeee9e7c17c1">
+					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( $P{endDateFormat}, $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE} ).format($P{EndDateQuery})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="95" width="100" height="20" uuid="aeede670-5a9b-4383-80cb-393207b40f5c">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement>
 					<font size="12" isBold="true"/>
@@ -359,8 +1039,10 @@ and port.fullName=$P{Port}]]>
 				<textFieldExpression><![CDATA["Report Date:"]]></textFieldExpression>
 			</textField>
 			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="250" y="90" width="205" height="20" uuid="e9ed783e-94cb-454d-9139-81b5bd527c0a">
-					<property name="net.sf.jasperreports.export.html.id" value="reportDateValue"/>
+				<reportElement x="121" y="95" width="205" height="20" uuid="090a9bae-e8f3-400c-b179-a00528a66e63">
+					<property name="net.sf.jasperreports.export.html.id" value="report_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="12"/>
@@ -368,63 +1050,122 @@ and port.fullName=$P{Port}]]>
 				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( "yyyy-MM-dd HH:mm:ss z", $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE}).format(new java.util.Date())]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement stretchType="RelativeToBandHeight" x="82" y="60" width="150" height="20" uuid="ed409636-e273-4305-afee-7a9506ddeebb">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement x="12" y="70" width="100" height="20" uuid="3fb463fb-0838-49a0-a622-4a326de31cda"/>
 				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
-					<paragraph tabStopWidth="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Start Date:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="60" width="210" height="20" uuid="239e29ea-263e-4a35-91b9-663bec122611"/>
-				<textElement markup="none">
+				<reportElement x="121" y="70" width="205" height="20" uuid="3cbc8fa7-a8e6-4169-a353-98599b1e6422">
+					<property name="net.sf.jasperreports.export.html.id" value="start_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
 					<font size="12"/>
-					<paragraph tabStopWidth="0"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( $P{startDateFomat}, $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE} ).format($P{StartDateQuery})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="700" y="60" width="80" height="17" uuid="2025f553-3746-4cf6-9e7b-b5e805f1860b"/>
+				<reportElement x="337" y="70" width="86" height="20" uuid="865ccb84-3739-4184-9502-bd728981542a">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["End Date:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="800" y="60" width="240" height="17" uuid="d75295cd-8687-40cf-b5b5-40c786e6529a"/>
-				<textElement>
+				<reportElement x="840" y="70" width="144" height="20" uuid="d7f050a3-05a3-4016-afb2-24417647cce3">
+					<property name="net.sf.jasperreports.export.html.id" value="granularity_value"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( $P{endDateFormat}, $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE} ).format($P{EndDateQuery})]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{granularityStr}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="700" y="90" width="100" height="17" uuid="8787df69-56b5-45df-be6f-b161f49d5881"/>
+				<reportElement x="735" y="70" width="100" height="20" uuid="c97aa246-3531-4d71-8c0a-a6bdce22d8a4">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Granularity:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="800" y="90" width="260" height="17" uuid="97e195b2-53d3-4b0e-b3db-ca400d3a1e1e"/>
-				<textElement>
-					<font size="12"/>
+				<reportElement x="337" y="95" width="132" height="20" uuid="9a946882-23bd-4284-abea-6721b973272d">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{granularityString}]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Port Description:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="700" y="120" width="100" height="20" uuid="3de537d5-bc88-4e60-91cd-bccce4273f27"/>
+				<reportElement x="477" y="95" width="250" height="20" uuid="63491f3e-10b6-465d-a4d1-77e243313a2e">
+					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="735" y="95" width="96" height="20" uuid="f299dbbd-4260-434a-bbfc-52f3de6bc1b5">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Port Name:"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="840" y="95" width="172" height="20" uuid="b4b21b61-865c-4076-bc2d-b638c15bfafd">
+					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{displayedName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="121" y="120" width="130" height="20" uuid="4a2979a8-4bfd-42f1-8200-7a786c3b6c62">
+					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nodeId}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="120" width="98" height="20" uuid="d3973258-eeaf-42ee-b78d-6f82711b7b25"/>
+				<textElement textAlignment="Left">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["NE ID :"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="337" y="120" width="98" height="20" uuid="51e1d187-13f5-46af-b98e-ee6119e5c266"/>
 				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA["NE Name:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="800" y="120" width="215" height="20" uuid="ad5956b7-80a4-433e-b224-4c1c48a260e8">
+				<reportElement x="477" y="120" width="195" height="20" uuid="4b007fb0-5059-47a9-885e-93b4a63ebf49">
 					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="12"/>
@@ -432,57 +1173,42 @@ and port.fullName=$P{Port}]]>
 				<textFieldExpression><![CDATA[$F{siteName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="82" y="120" width="101" height="20" uuid="5d0aaa60-01ff-4bad-aa3c-c5434c3b66c3"/>
+				<reportElement x="735" y="120" width="96" height="20" uuid="dc544580-41a5-4fb4-b750-b733fea84ad6">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["NE ID:"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["Port Mode:"]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="120" width="162" height="20" uuid="ab6a503c-d266-49ec-b729-588d4dc03af6">
+				<reportElement x="840" y="120" width="130" height="20" uuid="92576622-cbf1-4d07-9d34-5b89772c714b">
 					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
 					<font size="12"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{siteId}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{portMode}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="82" y="150" width="101" height="20" uuid="a0a11dbf-dffa-464e-b9b6-6eb292f2a961"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Port Name:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="150" width="162" height="20" uuid="00611801-ab3d-4e62-bbba-31a9a8499f34">
-					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{portName}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement stretchType="ContainerHeight" x="0" y="20" width="80" height="57" uuid="f66e611f-65d0-40fb-8e59-6f5592079231">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<printWhenExpression><![CDATA[(($P{imgParam}.toString().trim().length()) > 0) &&
-			($P{imgPosition}.toString().trim().equalsIgnoreCase("left") || $P{imgPosition}.toString().trim().equalsIgnoreCase("middle") )]]></printWhenExpression>
-				</reportElement>
-				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
-			</image>
 			<image hAlign="Right">
-				<reportElement stretchType="ContainerHeight" x="1070" y="20" width="80" height="80" uuid="eae1f2e8-0323-484a-bd01-94a92e591d8e">
+				<reportElement stretchType="ContainerHeight" x="929" y="1" width="80" height="50" uuid="20060eff-b2be-487b-9919-e87281731139">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
 					<printWhenExpression><![CDATA[(($P{imgParam}.toString().trim().length()) > 0) &&
 			$P{imgPosition}.toString().trim().equalsIgnoreCase("right")]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
+			</image>
+			<image>
+				<reportElement stretchType="ContainerHeight" x="0" y="1" width="80" height="50" uuid="43bc09d9-e232-4799-8d94-4a1543d0ee77">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<printWhenExpression><![CDATA[(($P{imgParam}.toString().trim().length()) > 0) &&
+			($P{imgPosition}.toString().trim().equalsIgnoreCase("left") || $P{imgPosition}.toString().trim().equalsIgnoreCase("middle") )]]></printWhenExpression>
 				</reportElement>
 				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
 			</image>
@@ -490,19 +1216,28 @@ and port.fullName=$P{Port}]]>
 	</title>
 	<pageHeader>
 		<band height="83" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[($V{PAGE_NUMBER}.intValue() > 1) &&
-(($P{imgParam}.toString().trim().length()) > 0)]]></printWhenExpression>
+	(($P{imgParam}.toString().trim().length()) > 0)]]></printWhenExpression>
 			<image>
-				<reportElement key="" stretchType="ContainerHeight" x="0" y="0" width="80" height="80" uuid="7441bbdb-3399-43d4-b9cd-14cdda8b9af1">
+				<reportElement key="" stretchType="ContainerHeight" x="0" y="0" width="80" height="80" uuid="4c6b34ad-fe7f-4033-970b-1d00bea9cfca">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<printWhenExpression><![CDATA[$P{imgPosition}.toString().trim().equalsIgnoreCase("left")]]></printWhenExpression>
 				</reportElement>
 				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
 			</image>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement key="" stretchType="ContainerHeight" x="465" y="3" width="80" height="80" uuid="ea54cd8e-7212-48ae-8475-134c9ab7aa0c">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<printWhenExpression><![CDATA[$P{imgPosition}.toString().trim().equalsIgnoreCase("middle")]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
+			</image>
 			<image hAlign="Right">
-				<reportElement key="" stretchType="ContainerHeight" x="1070" y="0" width="80" height="80" uuid="94a8a307-fcb9-4ea8-a5f1-563afc62d197">
+				<reportElement key="" stretchType="ContainerHeight" x="929" y="0" width="80" height="80" uuid="f2b18b64-2367-4fc7-9b07-39c00f24e369">
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
@@ -511,437 +1246,633 @@ and port.fullName=$P{Port}]]>
 				</reportElement>
 				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
 			</image>
-			<image hAlign="Center" vAlign="Middle">
-				<reportElement key="" stretchType="ContainerHeight" x="535" y="3" width="80" height="80" uuid="6b1c4f4b-acf0-4ef4-9e25-987fde98e1bf">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<printWhenExpression><![CDATA[$P{imgPosition}.toString().trim().equalsIgnoreCase("middle")]]></printWhenExpression>
-				</reportElement>
-				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
-			</image>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="30" splitType="Stretch">
+		<band height="53">
 			<subreport>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="200" y="10" width="870" height="10" uuid="309904ca-9592-4c34-9f0c-e80b27b25d0f">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement x="30" y="10" width="200" height="30" uuid="af4d1985-e67a-4632-bd29-01cd0e90a4a7"/>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["repo:Rssi.jrxml"]]></subreportExpression>
+				<returnValue subreportVariable="sub_sr" toVariable="main_sr"/>
+				<returnValue subreportVariable="sub_sas" toVariable="main_sas"/>
+				<subreportExpression><![CDATA["repo:NodeTypeCheck.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="30" splitType="Stretch">
+		<band height="38">
 			<subreport>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="200" y="10" width="870" height="10" uuid="c79436ee-bf04-4927-b6fb-fa14c0f62131">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
+				<reportElement x="30" y="10" width="200" height="10" uuid="7dcd1621-1d25-430e-8a8f-92270f0730aa"/>
 				<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
+				<subreportParameter name="EndDateQuery">
+					<subreportParameterExpression><![CDATA[$P{EndDateQuery}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="StartDateQuery">
+					<subreportParameterExpression><![CDATA[$P{StartDateQuery}]]></subreportParameterExpression>
+				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["repo:TemCPUMem.jrxml"]]></subreportExpression>
+				<returnValue subreportVariable="v_sap" toVariable="main_sap"/>
+				<subreportExpression><![CDATA["repo:saplist.jrxml"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="203" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="400" y="10" width="350" height="30" uuid="324fb56e-332e-4774-8ad0-b09f5d0dc3d2"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cellular Port Specifics Summary]]></text>
-			</staticText>
+		<band height="178" splitType="Stretch">
 			<componentElement>
-				<reportElement style="Table_CH_FIRST" positionType="Float" x="80" y="50" width="1061" height="130" uuid="5dc48ad1-6b34-406a-8349-ce7a7f7a2e79">
+				<reportElement x="0" y="9" width="1110" height="160" uuid="04ebc9a1-72c2-40d8-aa93-0fe34e5d1c3a">
 					<property name="com.jaspersoft.studio.layout" value="com.jaspersoft.studio.editor.layout.VerticalRowLayout"/>
 					<property name="com.jaspersoft.studio.table.style.table_header" value="Table_TH"/>
 					<property name="com.jaspersoft.studio.table.style.column_header" value="Table_CH"/>
 					<property name="com.jaspersoft.studio.table.style.detail" value="Table_TD"/>
-					<property name="net.sf.jasperreports.export.headertoolbar.table.name" value=""/>
-					<property name="com.jaspersoft.studio.components.autoresize.next" value="true"/>
+					<property name="com.jaspersoft.studio.components.autoresize.proportional" value="true"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="SummaryDataset" uuid="d056698f-8005-4284-a363-72e7d93fcd9b">
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" whenNoDataType="AllSectionsNoDetail">
+					<datasetRun subDataset="service_details" uuid="983505ee-cbcd-488d-9572-52780074e78e">
 						<parametersMapExpression><![CDATA[$P{REPORT_PARAMETERS_MAP}]]></parametersMapExpression>
-						<datasetParameter name="Port">
-							<datasetParameterExpression><![CDATA[$P{Port}]]></datasetParameterExpression>
+						<datasetParameter name="StartDateQuery">
+							<datasetParameterExpression><![CDATA[$P{StartDateQuery}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="EndDateQuery">
+							<datasetParameterExpression><![CDATA[$P{EndDateQuery}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="periodicTimeGranularity">
+							<datasetParameterExpression><![CDATA[$P{periodicTimeGranularity}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="granularity">
+							<datasetParameterExpression><![CDATA[$P{granularity}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="timePeriod">
+							<datasetParameterExpression><![CDATA[$P{timePeriod}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="endTime">
+							<datasetParameterExpression><![CDATA[$P{endTime}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nodeType">
+							<datasetParameterExpression><![CDATA[$P{nodeType}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nodeNamePattern">
+							<datasetParameterExpression><![CDATA[$P{nodeNamePattern}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="nodelist">
+							<datasetParameterExpression><![CDATA[$P{nodelist}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Port_NamePattern">
+							<datasetParameterExpression><![CDATA[$P{Port_NamePattern}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Port_Lag">
+							<datasetParameterExpression><![CDATA[$P{Port_Lag}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="Display_Service_Full_Name">
+							<datasetParameterExpression><![CDATA[$P{Display_Service_Full_Name}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="IS_IGNORE_PAGINATION">
+							<datasetParameterExpression><![CDATA[$P{IS_IGNORE_PAGINATION}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="srcTableIngressSR">
+							<datasetParameterExpression><![CDATA[$P{srcTableIngressSR}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="srcTableIngressSAR">
+							<datasetParameterExpression><![CDATA[$P{srcTableIngressSAR}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="srcTableEgressSR">
+							<datasetParameterExpression><![CDATA[$P{srcTableEgressSR}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="srcTableEgressSAR">
+							<datasetParameterExpression><![CDATA[$P{srcTableEgressSAR}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="d_sr">
+							<datasetParameterExpression><![CDATA[$V{main_sr}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="d_sas">
+							<datasetParameterExpression><![CDATA[$V{main_sas}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="d_sap">
+							<datasetParameterExpression><![CDATA[$V{main_sap}]]></datasetParameterExpression>
 						</datasetParameter>
 						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 					</datasetRun>
-					<jr:column width="120" uuid="8d63df0d-4807-4d0c-afa8-dee7ce5b0ec8">
+					<jr:column width="87" uuid="efda607c-b9ed-463f-a8b9-d1eeac1aa023">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column1"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="120" height="60" uuid="47ebd00b-2dce-43c6-9de0-c6802c78ec2e"/>
+						<jr:tableFooter height="50" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<textField>
+								<reportElement style="Table_CH_FIRST" x="0" y="0" width="87" height="50" uuid="b92ae39e-866d-4d52-8903-be700e2c32d6">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
+								</reportElement>
 								<textElement textAlignment="Center"/>
-								<text><![CDATA[Port]]></text>
+								<textFieldExpression><![CDATA[$F{CustomerName}==null ?"No data found":""]]></textFieldExpression>
+							</textField>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
+							<staticText>
+								<reportElement style="Table_CH_FIRST" x="0" y="0" width="87" height="80" uuid="084edb94-7f79-47ef-b6a0-1c4938de0e0d"/>
+								<textElement textAlignment="Center"/>
+								<text><![CDATA[Customer
+ Name]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:detailCell height="50">
+							<property name="com.jaspersoft.studio.unit.height" value="px"/>
 							<textField>
-								<reportElement style="Table_CH_FIRST" x="0" y="0" width="120" height="30" uuid="387f9b41-59b8-457f-9c2e-1bfba9bb112a">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="Table_TD_FIRST" x="0" y="0" width="87" height="50" uuid="515d6782-3436-4cbb-935c-f6976a2051bf">
+									<property name="net.sf.jasperreports.export.html.id" value="table1_nodatafound_label"/>
 								</reportElement>
-								<textFieldExpression><![CDATA[$F{displayedName}==null ?"No data found":""]]></textFieldExpression>
-							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="Table_TD_FIRST" x="0" y="0" width="120" height="40" uuid="ab7b715d-ec1a-476c-a291-271669a277da"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{displayedName}]]></textFieldExpression>
+								<textFieldExpression><![CDATA[$F{CustomerName}!=null ? $F{CustomerName} :"No data found"]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="130" uuid="d288f46b-938a-4363-a917-580fa25f4c82">
+					<jr:column width="87" uuid="865f0cac-17b5-4a7d-9bf9-f30496fba33d">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column2"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="130" height="60" uuid="8b753675-519c-4a57-873a-9ac13cfb8bb6"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Cellular IMEI]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="130" height="30" uuid="335063b4-7dca-4e67-bbc7-fe6025cf9d22">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="87" height="50" uuid="d2402ac4-c275-4c45-bc94-7917ab6527d8">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="130" height="40" uuid="0eb4cb9f-e053-4c62-bba4-5c497fe025b4"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="87" height="80" uuid="e244b64e-90fa-4535-8af8-661d3977ec91"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellularImei}]]></textFieldExpression>
+								<text><![CDATA[Customer
+ ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="87" height="50" uuid="73a963e2-888c-4f2c-bc8a-2bac24c170fc"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{CustomerID}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="26dab6c8-ff3c-4816-ab17-f0fb59179532">
+					<jr:column width="66" uuid="2f63258a-de74-461d-b583-6ae046dd19ba">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column3"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="80" height="60" uuid="1cb46f75-0bea-42ad-a7e0-214b7cc93f3e"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[Cell Identity]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="80" height="30" uuid="7872a79d-362a-419b-a488-e3ebf3657f68"/>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="66" height="50" uuid="d29b6196-c09a-4d7c-9aaa-ffa8c8eafc06">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
+								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="80" height="40" uuid="9fe2d654-76b6-4e6f-b910-ee94acb52e5e"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="66" height="80" uuid="d73975e9-c232-43af-88e1-6fd571c0515c"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortCellIdentity}]]></textFieldExpression>
+								<text><![CDATA[Service
+ Type]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="66" height="50" uuid="a7e789bb-5b02-44e2-9f1d-eb21ca70a12c"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{ServiceType}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="796c9134-e389-437f-a3b2-54f1d7f9cab0">
+					<jr:column width="76" uuid="68a5ec09-5fe8-4d2b-93ac-9730a06440e7">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column4"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="80" height="60" uuid="e40ccdcd-c4d5-43f9-b0c9-08460ed18e10"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[Wireless Technology]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="80" height="30" uuid="f2c7a825-4056-40c3-b720-caa13b8c3fa7">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="76" height="50" uuid="3edbab83-f095-4091-81b7-37dcc343eebe">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="80" height="40" uuid="0c44ad43-0173-45de-8e20-b0a1ff23bdde"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="76" height="80" uuid="cb8ec3e1-c0ea-423e-877f-988730e39f10"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortWirelessTechnology}==0? "None":
-$F{cellPortWirelessTechnology}==1? "LTE":
-$F{cellPortWirelessTechnology}==2? "WCDMA":
-$F{cellPortWirelessTechnology}==3? "GSM":
-$F{cellPortWirelessTechnology} == ' ' ? "Unknown" :"Unknown"]]></textFieldExpression>
+								<text><![CDATA[Service
+ Name]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField hyperlinkType="ReportExecution">
+								<reportElement style="TD_ping_link" x="0" y="0" width="76" height="50" uuid="d9c8b808-3006-43e1-9ac0-7e474366c13e"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{ServiceName}]]></textFieldExpression>
+								<hyperlinkWhenExpression><![CDATA[$F{OAMServicetype} ==1 || $F{OAMServicetype}==3 ||$F{OAMServicetype}==4 ||$F{OAMServicetype}==12 ||$F{OAMServicetype}==103]]></hyperlinkWhenExpression>
+								<hyperlinkTooltipExpression><![CDATA["Launch Ping Service Summary report"]]></hyperlinkTooltipExpression>
+								<hyperlinkParameter name="_report">
+									<hyperlinkParameterExpression><![CDATA["/Reports/Network_and_Service/OAM/Ping_Service_Summary"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="endTime">
+									<hyperlinkParameterExpression><![CDATA[$P{endTime}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="granularity">
+									<hyperlinkParameterExpression><![CDATA[$P{granularity}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="timePeriod">
+									<hyperlinkParameterExpression><![CDATA[$P{timePeriod}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="SERVICE_TYPE">
+									<hyperlinkParameterExpression><![CDATA[$F{OAMServicetype}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgParam">
+									<hyperlinkParameterExpression><![CDATA[$P{imgParam}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgPosition">
+									<hyperlinkParameterExpression><![CDATA[$P{imgPosition}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="IS_IGNORE_PAGINATION">
+									<hyperlinkParameterExpression><![CDATA[$P{IS_IGNORE_PAGINATION}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="c231e94c-c281-4df7-a730-2f5d58942eeb">
+					<jr:column width="66" uuid="8d831384-a407-4fa1-ab35-a4c2d1a78d7c">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column5"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="08d2747c-deb7-4389-9e9b-35c58ecde212"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[RSSI]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="bfccb861-1df0-4959-b4ba-05f36f883625">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="66" height="50" uuid="8cee28bc-c0e6-45ad-b9fe-1e55889bf5b6">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="48466f72-7b92-4016-a98f-08fa731a88e1"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="66" height="80" uuid="25937a57-3fb4-42a0-a058-e10af9ed5ca0"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortRssi}]]></textFieldExpression>
+								<text><![CDATA[Service
+ ID]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField hyperlinkType="ReportExecution">
+								<reportElement style="TD_OAM" x="0" y="0" width="66" height="50" uuid="2bafffa2-f0f4-41d2-af73-49fa2ebb7349"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{ServiceId}]]></textFieldExpression>
+								<hyperlinkWhenExpression><![CDATA[$F{OAMServicetype} ==1 || $F{OAMServicetype}==3 ||$F{OAMServicetype}==4  ||$F{OAMServicetype}==103]]></hyperlinkWhenExpression>
+								<hyperlinkTooltipExpression><![CDATA["Launch OAM-PM Service Summary report"]]></hyperlinkTooltipExpression>
+								<hyperlinkParameter name="_report">
+									<hyperlinkParameterExpression><![CDATA["/Reports/Network_and_Service/OAM/OAM_PM_Service_Summary"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="endTime">
+									<hyperlinkParameterExpression><![CDATA[$P{endTime}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="granularity">
+									<hyperlinkParameterExpression><![CDATA[$P{granularity}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="timePeriod">
+									<hyperlinkParameterExpression><![CDATA[$P{timePeriod}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="SERVICE_TYPE">
+									<hyperlinkParameterExpression><![CDATA[$F{OAMServicetype}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgParam">
+									<hyperlinkParameterExpression><![CDATA[$P{imgParam}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgPosition">
+									<hyperlinkParameterExpression><![CDATA[$P{imgPosition}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="IS_IGNORE_PAGINATION">
+									<hyperlinkParameterExpression><![CDATA[$P{IS_IGNORE_PAGINATION}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="6e5c9590-e6f6-4d46-929b-922c271e350d">
+					<jr:column width="151" uuid="b822adef-b883-4879-a094-14af372d3c07">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column6"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="e9f3a8a5-4ebc-4259-8127-3d63f4ab0ff0"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[RSRP]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<printWhenExpression><![CDATA[$P{Display_Service_Full_Name}]]></printWhenExpression>
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="db4a54de-fb09-4aef-8e16-c609fce95300">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="151" height="50" uuid="e3947b90-99bb-4b56-96d7-7dac07e4a025">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="24c225aa-386c-4f4a-aa5b-cdc42709bbd8"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="151" height="80" uuid="7207dc7d-636b-4bd5-8ade-c2ea554c357f"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortRsrp}]]></textFieldExpression>
+								<text><![CDATA[Service
+ FullName]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="151" height="50" uuid="2d7be5d6-f21e-42a3-afef-7125110fe636"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$P{Display_Service_Full_Name}&&$F{ServiceFullName}!=null ?$F{ServiceFullName}:""]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="d38a2c4e-9878-41f0-a13b-62c2b026d5b0">
+					<jr:column width="71" uuid="0efc0449-a017-4b9c-9b4a-d4c1687875ac">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column7"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="3d22a34f-0c02-4ab0-ae66-ac100b59c321"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[RSCP]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="19ebd9ee-7955-478f-8d04-7a57f9b891b5">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="71" height="50" uuid="e4c08a9e-5268-4e71-bd15-58ae7486a262">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="a80b6118-b640-418f-8d71-461e0dd54fe8"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="71" height="80" uuid="e1f4d453-7a17-4d7d-8710-4a9f8077cb20"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortRscp}]]></textFieldExpression>
+								<text><![CDATA[Ingress
+ CIR
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="71" height="50" uuid="318b9e6a-5747-499e-a1d7-0e6fca96d032"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{IngressCir}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="7386c538-45e8-4b00-ab40-b6791c21095c">
+					<jr:column width="64" uuid="3a2189d9-4af6-4657-867d-160f905dddc0">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column8"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="905dfdeb-bfd0-4554-8532-742519727abe"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[RSRQ]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="1e4831e8-4ff9-4df6-ae56-f165498d3e8a">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="64" height="50" uuid="93d4b96e-8858-4204-a1ff-13639e754aaa">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="79f35886-6ba6-4f78-bde7-7f0a9e3c9ded"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="64" height="80" uuid="09ba220f-700c-49f3-b4ed-f13f2ba4e142"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortRsrq}]]></textFieldExpression>
+								<text><![CDATA[Ingress
+ PIR
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="64" height="50" uuid="8043b249-2081-44b2-83d6-66dfe1a0fc12"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{IngressPir}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="0b7a78b1-dcde-4fbf-a71b-40314ba867af">
+					<jr:column width="74" uuid="97f79c1f-d439-452f-8c02-1c6b82012593">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column9"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="3e7d2426-52b5-4b59-b2fd-aa1d4f8291da"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[SINR]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="e0216d5e-393a-4794-8279-e1355ac4c788">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="74" height="50" uuid="3e4b0ccc-c7f7-4cfe-898f-f242b587a985">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="3f58129f-581c-458b-a45d-492aab45c580"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="74" height="80" uuid="1afcc62e-1f81-45ad-9b80-0eb808311953"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortSinr}]]></textFieldExpression>
+								<text><![CDATA[Ingress
+ Actual
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="74" height="50" uuid="e6650a9e-27a1-40fb-8933-cd9f7e948c63"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$P{decimalForm4dec}.format($F{IngressActualTpt})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="60" uuid="0cf943ae-e246-46ef-a885-bda0539f1fc8">
+					<jr:column width="106" uuid="4aedc393-0823-405a-bdc1-288aba1b4c2a">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column10"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="60" uuid="1ff7bfc9-671a-4e38-aa8f-261509cc8460"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[Frequency Band]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="60" height="30" uuid="051d8b54-a1f9-4873-b4d5-cc948c887add">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="106" height="50" uuid="267a0151-aa46-4254-8cfd-fa826dc2e271">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="60" height="40" uuid="a6e2a452-1380-42fa-bfa5-fd6201b76969"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="106" height="80" uuid="1f1ee8e4-61e6-41b4-8e69-bd5db6e6a0c7"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortFrequencyBand}]]></textFieldExpression>
+								<text><![CDATA[Ingress
+ Utilization
+(%Actual/PIR)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="106" height="50" uuid="9ac33984-cf4d-43cb-89a1-fea3403555e5"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$P{decimalForm4dec}.format($F{IngressUtilization})]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="70" uuid="7001627a-af7e-421a-999f-842cda19ddf7">
+					<jr:column width="52" uuid="afc7f495-9770-4f62-a444-440d67f93c35">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column11"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="70" height="60" uuid="8c87c17a-efe3-4110-9641-544960eba3a9"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[Channel Number]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="70" height="30" uuid="2c420955-6e8a-4663-9acf-c8f9d3079514">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="52" height="50" uuid="d1632ab0-e0e1-4115-b255-22a2d0ed5894">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="70" height="40" uuid="e2e0f52f-29ee-424b-9a50-efbfdd4189ae"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="52" height="80" uuid="2b251803-b997-408e-be0d-0c09af2685a2"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortChanNum}]]></textFieldExpression>
+								<text><![CDATA[Egress
+ CIR
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="52" height="50" uuid="70af4629-8cb9-47fa-84f7-05de5752ccfc"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{EgressCir}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="80" uuid="b21b89f2-c9e5-4fb7-869b-10ed05bfdf7e">
+					<jr:column width="63" uuid="d1014492-5c2c-4ce9-88fd-eef5b2902352">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column12"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="80" height="60" uuid="74bbb3cf-b282-4751-9668-643462df6848"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[Area Code]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" positionType="Float" x="0" y="0" width="80" height="30" uuid="e8152db1-2dfc-4ac6-a7a2-aff4558f2400">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="63" height="50" uuid="da6fee81-6fef-49ad-881f-de1ddcb37bc3">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="80" height="40" uuid="8e63144f-b78d-4da4-a165-1e9961db535f"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="63" height="80" uuid="6fecf0ce-61d0-49aa-814c-4118fc1a330f"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortAreaCode}]]></textFieldExpression>
+								<text><![CDATA[Egress
+ PIR
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField>
+								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="63" height="50" uuid="784909b6-df9f-453c-8fd6-7dcb27cfeab0"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$F{EgressPir}]]></textFieldExpression>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="90" uuid="acbcc5e2-853e-4ea3-9c4c-3fc6542306b8">
+					<jr:column width="63" uuid="9fe36ce6-3646-4598-b5c1-fdf014dddda8">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column13"/>
-						<printWhenExpression><![CDATA[$F{manufacturerBoardNumber}.startsWith( "3HE10676AA" )?true:false]]></printWhenExpression>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="CopyOf_Table_CH1" positionType="FixRelativeToBottom" x="0" y="0" width="90" height="60" uuid="880698b5-b45a-4f91-a2de-2eadbf87e82a"/>
-								<textElement textAlignment="Center"/>
-								<text><![CDATA[B125 Power Level (dBm)]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="90" height="30" uuid="64c13659-8a08-4f26-8fbd-648c7227e53c"/>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="63" height="50" uuid="d2c03500-5fbd-402e-a285-94876945853f">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
+								</reportElement>
 								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="CopyOf_Table_TD1" x="0" y="0" width="90" height="40" uuid="17fd6386-2059-44dc-aadb-720692d5d848"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="CopyOf_Table_CH1" x="0" y="0" width="63" height="80" uuid="9b9fa3e7-0023-4dc9-afc4-0a80e886b32c"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortBand125MaxPowerLevel}]]></textFieldExpression>
+								<text><![CDATA[Egress
+ Actual
+(Kbps)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField hyperlinkType="ReportExecution">
+								<reportElement style="Table_TD_LINK" x="0" y="0" width="63" height="50" uuid="d6561134-705f-42bf-b914-4393609bdefc"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$P{decimalForm4dec}.format($F{EgressActualTpt})]]></textFieldExpression>
+								<hyperlinkWhenExpression><![CDATA[Boolean.TRUE]]></hyperlinkWhenExpression>
+								<hyperlinkTooltipExpression><![CDATA["Launch SAP Throughput report"]]></hyperlinkTooltipExpression>
+								<hyperlinkParameter name="_report">
+									<hyperlinkParameterExpression><![CDATA["/Reports/Network_and_Service/Utilization/SAP_Throughput"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="endTime">
+									<hyperlinkParameterExpression><![CDATA[$P{endTime}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="granularity">
+									<hyperlinkParameterExpression><![CDATA[$P{granularity}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="timePeriod">
+									<hyperlinkParameterExpression><![CDATA[$P{timePeriod}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="nodeTypes">
+									<hyperlinkParameterExpression><![CDATA[$P{nodeType}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="nodeNamesPattern">
+									<hyperlinkParameterExpression><![CDATA[$P{nodeNamePattern}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="Node">
+									<hyperlinkParameterExpression><![CDATA[$P{nodelist}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="subNamePatterns">
+									<hyperlinkParameterExpression><![CDATA["%"+$F{CustomerName}+"%"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="subscriber_1">
+									<hyperlinkParameterExpression><![CDATA[$F{CustomerName}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="Service_Name_Pattern">
+									<hyperlinkParameterExpression><![CDATA["%"+$F{ServiceName}+"%"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="Servicess">
+									<hyperlinkParameterExpression><![CDATA[$F{ServiceName}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="SAP_1">
+									<hyperlinkParameterExpression><![CDATA[$P{d_sap}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgParam">
+									<hyperlinkParameterExpression><![CDATA[$P{imgParam}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgPosition">
+									<hyperlinkParameterExpression><![CDATA[$P{imgPosition}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="IS_IGNORE_PAGINATION">
+									<hyperlinkParameterExpression><![CDATA[$P{IS_IGNORE_PAGINATION}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
-					<jr:column width="111" uuid="e788dcd5-9825-4ae8-ac26-44801297c71c">
+					<jr:column width="84" uuid="a4bd8004-08c2-49c2-857c-912dc874ed70">
 						<property name="com.jaspersoft.studio.components.table.model.column.name" value="Column14"/>
-						<jr:columnHeader height="60" rowSpan="1">
-							<staticText>
-								<reportElement style="Table_CH_LAST" x="0" y="0" width="111" height="60" uuid="f3c4c089-a6e8-4b51-a9b3-63525bdfbc94"/>
-								<textElement textAlignment="Center" verticalAlignment="Middle"/>
-								<text><![CDATA[Registration Status]]></text>
-							</staticText>
-						</jr:columnHeader>
-						<jr:columnFooter height="30" rowSpan="1">
+						<jr:tableFooter height="50" rowSpan="1">
 							<textField>
-								<reportElement style="Table_CH_LAST" x="0" y="0" width="111" height="30" uuid="26f0780a-93ac-4d6e-a91f-b046bfa3569c">
-									<printWhenExpression><![CDATA[$F{displayedName}==null]]></printWhenExpression>
+								<reportElement style="Table_CH_LAST" x="0" y="0" width="84" height="50" uuid="d3375640-c7ad-4758-8544-ce9102518f8c">
+									<printWhenExpression><![CDATA[$F{CustomerName}==null]]></printWhenExpression>
 								</reportElement>
-								<textElement verticalAlignment="Middle"/>
+								<textElement textAlignment="Center"/>
 								<textFieldExpression><![CDATA[""]]></textFieldExpression>
 							</textField>
-						</jr:columnFooter>
-						<jr:detailCell height="40">
-							<textField>
-								<reportElement style="Table_TD_LAST" stretchType="RelativeToTallestObject" x="0" y="0" width="111" height="40" uuid="37c415db-0afa-441b-afdd-89ea57f6507d"/>
+						</jr:tableFooter>
+						<jr:columnHeader height="80" rowSpan="1">
+							<staticText>
+								<reportElement style="Table_CH_LAST" x="0" y="0" width="84" height="80" uuid="237d0b4f-afe4-4064-91c2-fd9b5a973701"/>
 								<textElement textAlignment="Center"/>
-								<textFieldExpression><![CDATA[$F{cellPortRegistrationStatus} == 0 ? " Not Registered" : 
-$F{cellPortRegistrationStatus} == 1 ? " Registered Home" : 
-$F{cellPortRegistrationStatus} == 2 ? " Searching" : 
-$F{cellPortRegistrationStatus} == 3 ? " Denied " : 
-$F{cellPortRegistrationStatus} == 4 ? " No Network" : 
-$F{cellPortRegistrationStatus} == 5 ? " Registered Roaming" : 
-$F{cellPortRegistrationStatus} == 6 ? " SMS Only Home" : 
-$F{cellPortRegistrationStatus} == 7 ? " SMS Only Roaming" : 
-$F{cellPortRegistrationStatus} == 8 ? " Emergency Only" : 
-$F{cellPortRegistrationStatus} == 9 ? " CSFB Not Preferred Home" : 
-$F{cellPortRegistrationStatus} == 10 ? " CSFB Not Preferred Roaming" : 
-$F{cellPortRegistrationStatus} == ' ' ? "Unknown" :"Unknown"]]></textFieldExpression>
+								<text><![CDATA[Egress
+ Utilization
+(%Actual/PIR)]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="50">
+							<textField hyperlinkType="ReportExecution">
+								<reportElement style="Table_TD_LAST_LINK" x="0" y="0" width="84" height="50" uuid="e5bb6286-e2ec-4b84-8855-5800c9a8fc63"/>
+								<textElement textAlignment="Center"/>
+								<textFieldExpression><![CDATA[$P{decimalForm4dec}.format($F{EgressUtilization})]]></textFieldExpression>
+								<hyperlinkWhenExpression><![CDATA[Boolean.TRUE]]></hyperlinkWhenExpression>
+								<hyperlinkTooltipExpression><![CDATA["Launch Service Utilization Details report"]]></hyperlinkTooltipExpression>
+								<hyperlinkParameter name="_report">
+									<hyperlinkParameterExpression><![CDATA["/Reports/Network_and_Service/Utilization/Service_Utilization"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="endTime">
+									<hyperlinkParameterExpression><![CDATA[$P{endTime}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="granularity">
+									<hyperlinkParameterExpression><![CDATA[$P{granularity}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="timePeriod">
+									<hyperlinkParameterExpression><![CDATA[$P{timePeriod}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="subNamePatterns">
+									<hyperlinkParameterExpression><![CDATA["%"+$F{CustomerName}+"%"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="custNameSingleSelect">
+									<hyperlinkParameterExpression><![CDATA[$F{CustomerName}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="serviceNamePattern">
+									<hyperlinkParameterExpression><![CDATA["%"+$F{ServiceName}+"%"]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="displayFullName">
+									<hyperlinkParameterExpression><![CDATA[$P{Display_Service_Full_Name}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgParam">
+									<hyperlinkParameterExpression><![CDATA[$P{imgParam}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="imgPosition">
+									<hyperlinkParameterExpression><![CDATA[$P{imgPosition}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
+								<hyperlinkParameter name="IS_IGNORE_PAGINATION">
+									<hyperlinkParameterExpression><![CDATA[$P{IS_IGNORE_PAGINATION}]]></hyperlinkParameterExpression>
+								</hyperlinkParameter>
 							</textField>
 						</jr:detailCell>
 					</jr:column>
@@ -949,160 +1880,4 @@ $F{cellPortRegistrationStatus} == ' ' ? "Unknown" :"Unknown"]]></textFieldExpres
 			</componentElement>
 		</band>
 	</detail>
-	<noData>
-		<band height="292" splitType="Stretch">
-			<property name="com.jaspersoft.studio.unit.height" value="px"/>
-			<staticText>
-				<reportElement x="360" y="10" width="400" height="30" uuid="9a11f940-e0fa-44ed-bc44-3b3475e5bf3a"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="16" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Signaling Trend Analysis]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="82" y="90" width="150" height="20" isRemoveLineWhenBlank="true" uuid="1af641f0-bd1e-4a45-b5e5-faa177159af5">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Report Date:"]]></textFieldExpression>
-			</textField>
-			<textField pattern="MMMMM dd, yyyy">
-				<reportElement x="250" y="90" width="205" height="20" uuid="c79603f2-c2b6-4e3c-a267-5a4f357dc63c">
-					<property name="net.sf.jasperreports.export.html.id" value="reportDateValue"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( "yyyy-MM-dd HH:mm:ss z", $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE}).format(new java.util.Date())]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement stretchType="RelativeToBandHeight" x="82" y="60" width="150" height="20" uuid="6c7ce41b-f108-49da-89ca-bdbf914fc3f7">
-					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-					<paragraph tabStopWidth="0"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Start Date:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="60" width="210" height="20" uuid="0f5c0f59-52de-4fd7-9ebe-23d626bae43e"/>
-				<textElement markup="none">
-					<font size="12"/>
-					<paragraph tabStopWidth="0"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( $P{startDateFomat}, $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE} ).format($P{StartDateQuery})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="700" y="60" width="80" height="17" uuid="0bbc6775-707d-4f8c-928b-1537b9671a17"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["End Date:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="800" y="60" width="240" height="17" uuid="6ba7f938-2d4c-496a-9249-189c2e411d6b"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{REPORT_FORMAT_FACTORY}.createDateFormat( $P{endDateFormat}, $P{REPORT_LOCALE}, $P{REPORT_TIME_ZONE} ).format($P{EndDateQuery})]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="700" y="90" width="100" height="17" uuid="c12a019a-68a4-458c-9022-5479871fbbbc"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Granularity:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="800" y="90" width="260" height="17" uuid="89753c55-e754-4932-8355-7eec6a185667"/>
-				<textElement>
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{granularityString}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="700" y="120" width="100" height="20" uuid="7e1816aa-fc52-4bd6-bd6f-ec308e6661fe"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["NE Name:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="800" y="120" width="215" height="20" uuid="bccaf480-a1e9-4843-aeed-455d8ed9c6a6">
-					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{siteName}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="82" y="120" width="101" height="20" uuid="a311de39-bc75-47bc-ae01-400cd48f4bcd"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["NE ID:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="120" width="162" height="20" uuid="bcb06116-331b-4138-84ae-69874a695ca5">
-					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{siteId}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="82" y="150" width="101" height="20" uuid="51a0b06b-9b9f-4a57-b4a6-f98868644c47"/>
-				<textElement textAlignment="Left">
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["Port Name:"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="250" y="150" width="162" height="20" uuid="22ad3ba9-a716-4a35-b02a-8d32da608b4a">
-					<property name="net.sf.jasperreports.export.html.id" value="end_date_value"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-				</reportElement>
-				<textElement textAlignment="Left">
-					<font size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{portName}]]></textFieldExpression>
-			</textField>
-			<image>
-				<reportElement stretchType="ContainerHeight" x="0" y="20" width="80" height="57" uuid="d9e0c6b2-c3e3-43d7-a6d4-3f993a8367f4">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<printWhenExpression><![CDATA[(($P{imgParam}.toString().trim().length()) > 0) &&
-			($P{imgPosition}.toString().trim().equalsIgnoreCase("left") || $P{imgPosition}.toString().trim().equalsIgnoreCase("middle") )]]></printWhenExpression>
-				</reportElement>
-				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
-			</image>
-			<image hAlign="Right">
-				<reportElement stretchType="ContainerHeight" x="1070" y="20" width="80" height="80" uuid="789e297f-c7f0-4713-bf22-77a018606c2b">
-					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.x" value="px"/>
-					<property name="com.jaspersoft.studio.unit.y" value="px"/>
-					<printWhenExpression><![CDATA[(($P{imgParam}.toString().trim().length()) > 0) &&
-			$P{imgPosition}.toString().trim().equalsIgnoreCase("right")]]></printWhenExpression>
-				</reportElement>
-				<imageExpression><![CDATA[(($P{imgParam}.toString().trim().equalsIgnoreCase("default (Nokia)"))) ? "repo:/themes/alu_nms/Images/sampleImage" :"repo:/Images/" + $P{imgParam}.toString()]]></imageExpression>
-			</image>
-			<textField>
-				<reportElement x="496" y="230" width="160" height="30" uuid="00639eee-33ee-4a9e-b3a1-936eb59b2588"/>
-				<textElement>
-					<font size="14" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA["No Data Found "]]></textFieldExpression>
-			</textField>
-		</band>
-	</noData>
 </jasperReport>
