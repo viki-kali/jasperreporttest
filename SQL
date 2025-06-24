@@ -185,10 +185,10 @@ on
 			where
 				T1.fullname = T2.fullname)
 			and NOT(actiontype = 1 ) )
-                )Y
+                ) Y
                 on
 		X.nodeId = Y.systemAddress
-)business_aa_sub
+) business_aa_sub
 left join
 
  (
@@ -299,6 +299,8 @@ where T1.fullName=T2.fullName
  and NOT(actiontype=1) )
 and siteId!='0.0.0.0'  and  siteId=?
 )
+
+--select * from PolicyControl
 
 ,PolicyControl_temp as (
 select a.l3fullName,a.l3displayedName, a.l3siteId, a.l3containingPolicyDisplayedName,
@@ -597,39 +599,7 @@ containingPolicyID, displayedName,chassisType, sapIngressCounterType, scheduler,
 
 ,IngresStats as (      select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt , (sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt, (sum((allOctetsForwarded/periodicTime)*8)) as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceIngressPacketOctets_PERIODIC where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and periodicTime!=0 and timerecorded >=1718668800000 and timerecorded <= 1750750684279 group by monitoredObjectPointer,queueId,policerId,statmode     )
 
- ,
-EgresStats as (
-select
-	monitoredObjectPointer,
-	queueId,
-	policerId,
-	-1 as meterId,
-	statmode,
-	(sum((inProfileOctetsForwarded / periodicTime)* 8)) as inProfTpt ,
-	(sum((outOfProfileOctetsForwarded / periodicTime)* 8)) as outProfTpt,
-	(sum((allOctetsForwarded / periodicTime)* 8) ) as allOctTpt,
-	0 as egreOctTpt,
-	0 as octetsTpt
-from
-	samdb.service_CompleteServiceEgressPacketOctets_PERIODIC
-where
-	monitoredObjectPointer in (
-	select
-		fullName
-	from
-		SAP
-	where
-		chassisType in(7750, 7705))
-	and (queueId > 0
-		or policerId > 0)
-	and periodicTime != 0
-	and timerecorded >= 1718668800000
-	and timerecorded <= 1750750684279
-group by
-	monitoredObjectPointer,
-	queueId,
-	policerId,
-	statmode )
+ ,EgresStats as (      select monitoredObjectPointer,queueId,policerId,-1 as meterId, statmode, (sum((inProfileOctetsForwarded/periodicTime)*8)) as inProfTpt , (sum((outOfProfileOctetsForwarded/periodicTime)*8)) as outProfTpt, (sum((allOctetsForwarded/periodicTime)*8) ) as allOctTpt, 0 as egreOctTpt, 0 as octetsTpt from samdb.service_CompleteServiceEgressPacketOctets_PERIODIC where monitoredObjectPointer in (select fullName from SAP where chassisType in(7750,7705)) and (queueId > 0 or policerId > 0) and periodicTime!=0 and timerecorded >=1718668800000 and timerecorded <= 1750750684279 group by monitoredObjectPointer,queueId,policerId,statmode     )
 
  , customerIngress as ( select  PortName,serviceName,customerName,customerID,serviceId,serviceType,serviceFullName,  SUM(case when cir<0 then 0 else cir end) as ingressCir ,  SUM(case when pir<0 then 0 else pir end) as ingressPir,
  SUM(( case when (chassisType=7750 and Isq.queueId >0 ) then inProfTpt+outProfTpt
