@@ -1,0 +1,184 @@
+WITH topologyParent AS (
+    SELECT parentGroupName, memberObjectPointer, fullName 
+    FROM samdb.analytics_network_TopologyGroupBinding T1
+    WHERE T1.timeRecorded = (
+        SELECT MAX(T2.timeRecorded) 
+        FROM samdb.analytics_network_TopologyGroupBinding T2
+        WHERE T1.fullName = T2.fullName
+    ) 
+    AND actionType != 1
+)
+
+
+final AS (
+    SELECT identifier, depth, path 
+    FROM (
+        SELECT samdb.ConnectBy(parentGroupName, memberObjectPointer, memberObjectPointer, '---') OVER () 
+        FROM topologyParent
+    ) tp
+    WHERE identifier ILIKE 'network%'
+),
+
+f1 AS (
+    SELECT 
+        identifier, path,
+        CASE 
+            WHEN path ILIKE 'network%' THEN 'topologyGroup:Network-Network' 
+            ELSE SUBSTRING(path, 0, POSITION('---' IN path)) 
+        END AS region,
+        CASE 
+            WHEN path ILIKE 'network%' THEN NULL 
+            ELSE SUBSTRING(path, POSITION('---' IN path) + 3) 
+        END AS subregion,
+        depth - 1 AS depth
+    FROM final
+),
+
+f2 AS (
+    SELECT 
+        path, identifier, region,
+        SUBSTRING(subregion, 0, POSITION('---' IN subregion)) AS subregion,
+        SUBSTRING(subregion, POSITION('---' IN subregion) + 3) AS subregion1,
+        depth - 1 AS depth
+    FROM f1
+    WHERE depth > 1 AND path NOT ILIKE 'network%'
+),
+
+f3 AS (
+    SELECT 
+        path, identifier, region, subregion,
+        SUBSTRING(subregion1, 0, POSITION('---' IN subregion1)) AS subregion1,
+        SUBSTRING(subregion1, POSITION('---' IN subregion1) + 3) AS subregion2,
+        depth - 1 AS depth
+    FROM f2
+    WHERE depth > 1 AND path NOT ILIKE 'network%'
+),
+
+f4 AS (
+    SELECT 
+        path, identifier, region, subregion, subregion1,
+        SUBSTRING(subregion2, 0, POSITION('---' IN subregion2)) AS subregion2,
+        SUBSTRING(subregion2, POSITION('---' IN subregion2) + 3) AS level5,
+        depth - 1 AS depth
+    FROM f3
+    WHERE depth > 1 AND path NOT ILIKE 'network%'
+),
+
+topology AS (
+    SELECT * FROM (
+        SELECT 
+            identifier,
+            SUBSTRING(region, 23) AS region,
+            region AS regionFullName,
+            NULL AS subregion, NULL AS subregionFullName,
+            NULL AS subregion1, NULL AS subregion1FullName,
+            NULL AS subregion2, NULL AS subregion2FullName,
+            CASE 
+                WHEN region ILIKE 'topologyGroup:Network-Network' THEN identifier 
+                ELSE subregion 
+            END AS nodeFullName
+        FROM f1
+        WHERE subregion ILIKE 'network:%' OR region = 'topologyGroup:Network-Network'
+
+        UNION ALL
+
+        SELECT 
+            identifier,
+            SUBSTRING(region, 23), region,
+            SUBSTRING(subregion, 23), subregion,
+            NULL, NULL,
+            NULL, NULL,
+            subregion1
+        FROM f2
+        WHERE subregion1 ILIKE 'network:%'
+
+        UNION ALL
+
+        SELECT 
+            identifier,
+            SUBSTRING(region, 23), region,
+            SUBSTRING(subregion, 23), subregion,
+            SUBSTRING(subregion1, 23), subregion1,
+            NULL, NULL,
+            subregion2
+        FROM f3
+        WHERE subregion2 ILIKE 'network:%'
+
+        UNION ALL
+
+        SELECT 
+            identifier,
+            SUBSTRING(region, 23), region,
+            SUBSTRING(subregion, 23), subregion,
+            SUBSTRING(subregion1, 23), subregion1,
+            SUBSTRING(subregion2, 23), subregion2,
+            level5
+        FROM f4
+        WHERE level5 ILIKE 'network:%'
+    ) b
+    WHERE REPLACE(REPLACE(REPLACE(regionFullName, ' ', ''), '''', ''), '_', '') = 'topologyGroup:Network-SR-Region'
+),
+
+stats AS (
+    SELECT * FROM (
+        SELECT 
+            hardwareResourceIdentifier,
+            monitoredObjectPointer,
+            fullName,
+            ROUND(MAX(max_maxvolt), 2) AS maxVolt,
+            ROUND(MAX(averageVoltage), 2) AS averageVoltage,
+            ROUND(MAX(min_minvolt), 2) AS minVolt,
+            TO_TIMESTAMP((MAX(maxVoltTime) - (MAX(maxVoltTime) % 60000)) / 1000) AS maxVoltTime,
+            TO_TIMESTAMP((MAX(minVoltTime) - (MAX(minVoltTime) % 60000)) / 1000) AS minVoltTime
+        FROM (
+            SELECT 
+                containingParentName AS hardwareResourceIdentifier,
+                monitoredObjectPointer,
+                d.fullName,
+                (s.peakVoltage / 1000) AS maxVolt,
+                MAX(s.peakVoltage / 1000) AS max_maxvolt,
+                s.peakVoltageTime AS maxVoltTime,
+                AVG(s.currentVoltage / 1000) AS averageVoltage,
+                (s.minVoltage / 1000) AS minVolt,
+                MIN(s.minVoltage / 1000) AS min_minvolt,
+                s.minVoltageTime AS minVoltTime
+            FROM samdb.equipment_HardwareResourceStatsLogRecord s
+            JOIN samdb.analytics_HwEnvironment d 
+              ON s.monitoredObjectPointer = d.fullName
+            WHERE d.timeRecorded = (
+                    SELECT MAX(d1.timeRecorded)
+                    FROM samdb.analytics_HwEnvironment d1
+                    WHERE d.fullName = d1.fullName
+                  )
+              AND s.timeCaptured BETWEEN 1719187200000 AND 1751260373967
+              AND s.periodicTime > 0 
+              AND s.createdOnPollType = 1
+              AND monitoredObjectSiteId = '92.168.97.220'
+            GROUP BY 
+                containingParentName, monitoredObjectPointer, d.fullName,
+                s.peakVoltage, s.currentVoltage, s.minVoltage,
+                s.peakVoltageTime, s.minVoltageTime
+        ) a
+        GROUP BY 
+            hardwareResourceIdentifier, monitoredObjectPointer, fullName
+    ) b1
+)
+
+SELECT DISTINCT 
+    NVL(tp.region, 'NA') AS region,
+    regionFullName,
+    subregionFullName,
+    NVL(tp.subregion, 'NA') AS subregion,
+    monitoredObjectPointer,
+    fullName,
+    NVL(tp.subregion1, 'NA') AS subregion1,
+    NVL(tp.subregion2, 'NA') AS subregion2,
+    regionFullName,
+    subregionFullName,
+    subregion1FullName,
+    subregion2FullName,
+    s.*
+FROM topology tp
+JOIN stats s ON tp.nodeFullName = SUBSTRING(s.monitoredObjectPointer, 0, POSITION(':' IN s.monitoredObjectPointer || ':' , 1, 2))
+WHERE REPLACE(REPLACE(REPLACE(regionFullName, ' ', ''), '''', ''), '_', '') = 'topologyGroup:Network-SR-Region'
+ORDER BY hardwareResourceIdentifier ASC
